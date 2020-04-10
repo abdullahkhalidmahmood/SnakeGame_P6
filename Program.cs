@@ -7,6 +7,7 @@ using System.Threading;
 
 namespace Snake
 {
+    //Define a structure for the position for every object in the game by row and column
     struct Position
     {
         public int row;
@@ -20,6 +21,9 @@ namespace Snake
 
     class Program
     {
+        //Define direction by using index number
+        //Set the time taken for the food to be dissappear
+        //Initialise negative points
         static void Main(string[] args)
         {
             byte right = 0;
@@ -30,6 +34,7 @@ namespace Snake
             int foodDissapearTime = 8000;
             int negativePoints = 0;
 
+            // Define direction with characteristic of index of array
             Position[] directions = new Position[]
             {
                 new Position(0, 1), // right
@@ -37,12 +42,16 @@ namespace Snake
                 new Position(1, 0), // down
                 new Position(-1, 0), // up
             };
+
+            //Do the initialization for sleepTime (Game's Speed), Snake's direction and food timing
+            //Limit the number of rows of text accessible in the console window
             double sleepTime = 100;
             int direction = right;
             Random randomNumbersGenerator = new Random();
             Console.BufferHeight = Console.WindowHeight;
             lastFoodTime = Environment.TickCount;
 
+            //Create obstacles objects and initialise certain fix position of obstacles at the beginning
             List<Position> obstacles = new List<Position>()
             {
                 new Position(12, 12),
@@ -51,6 +60,8 @@ namespace Snake
                 new Position(19, 19),
                 new Position(6, 9),
             };
+
+            //Show the obstacle in the windows with marking of "="
             foreach (Position obstacle in obstacles)
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -58,6 +69,8 @@ namespace Snake
                 Console.Write("=");
             }
 
+            //Initialise the snake position in top left corner of the windows
+            //Havent draw the snake elements in the windows yet. Will be drawn in the code below
             Queue<Position> snakeElements = new Queue<Position>();
             for (int i = 0; i <= 5; i++)
             {
