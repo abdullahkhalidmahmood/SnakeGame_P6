@@ -129,38 +129,42 @@ namespace Snake
                 //When the game starts the snake head is towards the end of his body with face direct to start from right.
                 Position snakeHead = snakeElements.Last();
                 Position nextDirection = directions[direction];
-
+                
+                //Snake position to go within the terminal window assigned.
                 Position snakeNewHead = new Position(snakeHead.row + nextDirection.row,
                     snakeHead.col + nextDirection.col);
-
+                
                 if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
                 if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;
                 if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
+                //If snake head hits the obstacle the game is over and the player will start a new game
                 if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
                 {
                     Console.SetCursorPosition(0, 0);
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Game over!");
-                    int userPoints = (snakeElements.Count - 6) * 100 - negativePoints;
+                    Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
+                    Console.WriteLine("Game over!");//The text which user will view when game is over
+                    int userPoints = (snakeElements.Count - 6) * 100 - negativePoints;//points calculated for player
                     //if (userPoints < 0) userPoints = 0;
                     userPoints = Math.Max(userPoints, 0);
-                    Console.WriteLine("Your points are: {0}", userPoints);
+                    Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
+                    Console.Readline();//This line shows the output initially missing in the program thus terminal closes
                     return;
                 }
-
+                //The way snake head will change as the player changes his direction
                 Console.SetCursorPosition(snakeHead.col, snakeHead.row);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("*");
+                Console.ForegroundColor = ConsoleColor.DarkGray;//snake body color
+                Console.Write("*");//snake body style
 
+                //Snake head shape when the user presses the key to change his direction
                 snakeElements.Enqueue(snakeNewHead);
                 Console.SetCursorPosition(snakeNewHead.col, snakeNewHead.row);
                 Console.ForegroundColor = ConsoleColor.Gray;
-                if (direction == right) Console.Write(">");
-                if (direction == left) Console.Write("<");
-                if (direction == up) Console.Write("^");
-                if (direction == down) Console.Write("v");
+                if (direction == right) Console.Write(">");//Snake head when going right
+                if (direction == left) Console.Write("<");//Snake head when going left
+                if (direction == up) Console.Write("^");//Snake head when going up
+                if (direction == down) Console.Write("v");//Snake head when going down
 
 
                 if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
