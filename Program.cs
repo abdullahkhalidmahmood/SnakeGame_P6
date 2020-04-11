@@ -80,22 +80,25 @@ namespace Snake
             //To position food randomly when the program runs first time
             Position food;
             do
-            {
-                food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                    randomNumbersGenerator.Next(0, Console.WindowWidth));
+            {   
+                food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), //Food generated within console height
+                    randomNumbersGenerator.Next(0, Console.WindowWidth)); //Food generate within console width
             }
-            while (snakeElements.Contains(food) || obstacles.Contains(food));
+            //a loop is created - while the program contains food and the obstacle is not hit 
+            //put food on different position which is "@"
+            while (snakeElements.Contains(food) || obstacles.Contains(food)); 
             Console.SetCursorPosition(food.col, food.row);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("@");
-
+            
+            //while the game is running position snake on terminal with shape "*"
             foreach (Position position in snakeElements)
             {
                 Console.SetCursorPosition(position.col, position.row);
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write("*");
             }
-
+            
             while (true)
             {
                 negativePoints++;
