@@ -101,8 +101,11 @@ namespace Snake
             
             while (true)
             {
+                //negative points is initialized as 0 at the beginning of the game. As the player reaches out for food
+                //negative points increment depending how far the food is
                 negativePoints++;
-
+                
+                //User key pressed statement: depends on which direction the user want to go to get food or avoid obstacle
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo userInput = Console.ReadKey();
@@ -123,7 +126,7 @@ namespace Snake
                         if (direction != up) direction = down;
                     }
                 }
-
+                //When the game starts the snake head is towards the end of his body with face direct to start from right.
                 Position snakeHead = snakeElements.Last();
                 Position nextDirection = directions[direction];
 
