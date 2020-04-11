@@ -76,7 +76,8 @@ namespace Snake
             {
                 snakeElements.Enqueue(new Position(0, i));
             }
-
+            
+            //To position food randomly when the program runs first time
             Position food;
             do
             {
