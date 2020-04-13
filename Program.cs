@@ -175,7 +175,8 @@ namespace Snake
                             randomNumbersGenerator.Next(0, Console.WindowWidth));
                     }
                     
-                    
+                    //when the snake eat the food, the system tickcount will be set as lastFoodTime
+                    //new food will be drawn, snake speed will increases
                     while (snakeElements.Contains(food) || obstacles.Contains(food));
                     lastFoodTime = Environment.TickCount;
                     Console.SetCursorPosition(food.col, food.row);
