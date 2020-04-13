@@ -209,7 +209,8 @@ namespace Snake
                     Console.Write(" ");
                 }
                    
-                
+                //if snake did not eat the food before it disappears, 50 will be added to negative points
+                //draw new food after the previous one disappeared
                 if (Environment.TickCount - lastFoodTime >= foodDissapearTime)
                 {
                     negativePoints = negativePoints + 50;
@@ -224,7 +225,7 @@ namespace Snake
                     while (snakeElements.Contains(food) || obstacles.Contains(food));
                     lastFoodTime = Environment.TickCount;
                 }
-                
+                //draw food
                 Console.SetCursorPosition(food.col, food.row);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("@");
