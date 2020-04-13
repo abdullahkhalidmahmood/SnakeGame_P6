@@ -203,7 +203,7 @@ namespace Snake
                 }
                 else
                 {
-                    
+                    // snake is moving
                     Position last = snakeElements.Dequeue();
                     Console.SetCursorPosition(last.col, last.row);
                     Console.Write(" ");
