@@ -166,28 +166,31 @@ namespace Snake
                 if (direction == up) Console.Write("^");//Snake head when going up
                 if (direction == down) Console.Write("v");//Snake head when going down
 
-
+                // food will be positioned randomly until they are not at the same row & column as snake head
                 if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
                 {
-                    // feeding the snake
                     do
                     {
                         food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
                             randomNumbersGenerator.Next(0, Console.WindowWidth));
                     }
+                    
+                    
                     while (snakeElements.Contains(food) || obstacles.Contains(food));
                     lastFoodTime = Environment.TickCount;
                     Console.SetCursorPosition(food.col, food.row);
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("@");
                     sleepTime--;
-
+                    
+                   
                     Position obstacle = new Position();
                     do
                     {
                         obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
                             randomNumbersGenerator.Next(0, Console.WindowWidth));
                     }
+                    
                     while (snakeElements.Contains(obstacle) ||
                         obstacles.Contains(obstacle) ||
                         (food.row != obstacle.row && food.col != obstacle.row));
@@ -198,17 +201,19 @@ namespace Snake
                 }
                 else
                 {
-                    // moving...
+                    
                     Position last = snakeElements.Dequeue();
                     Console.SetCursorPosition(last.col, last.row);
                     Console.Write(" ");
                 }
-
+                   
+                
                 if (Environment.TickCount - lastFoodTime >= foodDissapearTime)
                 {
                     negativePoints = negativePoints + 50;
                     Console.SetCursorPosition(food.col, food.row);
                     Console.Write(" ");
+                    
                     do
                     {
                         food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
@@ -217,13 +222,14 @@ namespace Snake
                     while (snakeElements.Contains(food) || obstacles.Contains(food));
                     lastFoodTime = Environment.TickCount;
                 }
-
+                
                 Console.SetCursorPosition(food.col, food.row);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("@");
-
+                
                 sleepTime -= 0.01;
-
+                
+                
                 Thread.Sleep((int)sleepTime);
             }
         }
