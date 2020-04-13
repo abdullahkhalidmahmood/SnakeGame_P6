@@ -230,9 +230,10 @@ namespace Snake
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("@");
                 
+                //snake moving speed increased 
                 sleepTime -= 0.01;
                 
-                
+                //pause the execution thread of snake moving speed
                 Thread.Sleep((int)sleepTime);
             }
         }
