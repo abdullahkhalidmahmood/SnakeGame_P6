@@ -184,14 +184,15 @@ namespace Snake
                     Console.Write("@");
                     sleepTime--;
                     
-                   
+                    //setting position of new obstacles randomly
                     Position obstacle = new Position();
                     do
                     {
                         obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
                             randomNumbersGenerator.Next(0, Console.WindowWidth));
                     }
-                    
+                    //if snake or obstacles are already at certain position, new obstacle will not be drawn there
+                    //new obstacle will not be drawn at the same row & column of food
                     while (snakeElements.Contains(obstacle) ||
                         obstacles.Contains(obstacle) ||
                         (food.row != obstacle.row && food.col != obstacle.row));
