@@ -72,7 +72,7 @@ namespace Snake
             //Initialise the snake position in top left corner of the windows
             //Havent draw the snake elements in the windows yet. Will be drawn in the code below
             Queue<Position> snakeElements = new Queue<Position>();
-            for (int i = 0; i <= 5; i++)
+            for (int i = 0; i <= 3; i++) // Length of the snake was reduced to 3 units of *
             {
                 snakeElements.Enqueue(new Position(0, i));
             }
@@ -149,7 +149,7 @@ namespace Snake
                     //if (userPoints < 0) userPoints = 0;
                     userPoints = Math.Max(userPoints, 0);
                     Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
-                    Console.Readline();//This line shows the output initially missing in the program thus terminal closes
+                    Console.ReadLine();//This line shows the output initially missing in the program thus terminal closes
                     return;
                 }
                 //The way snake head will change as the player changes his direction
