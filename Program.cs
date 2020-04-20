@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Threading;
+using System.Media;
 
 namespace Snake
 {
@@ -42,6 +43,18 @@ namespace Snake
                 new Position(1, 0), // down
                 new Position(-1, 0), // up
             };
+            
+            
+            //Create SoundPlayer objbect to control sound playback
+            SoundPlayer playerbgm = new SoundPlayer();
+            SoundPlayer playerdie = new SoundPlayer();
+
+            //Locate the SoundPlayer to the correct sound directory
+            playerbgm.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeBGM_1_Extended.wav";
+            playerdie.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeDie_1.wav";
+
+            //Play the background music at the beginning
+            playerbgm.Play();
 
             //Do the initialization for sleepTime (Game's Speed), Snake's direction and food timing
             //Limit the number of rows of text accessible in the console window
@@ -143,6 +156,7 @@ namespace Snake
                 //If snake head hits the obstacle the game is over and the player will start a new game
                 if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
                 {
+                    playerdie.Play(); //Play the die sound effect after player died
                     Console.SetCursorPosition(0, 0);
                     Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
                     Console.WriteLine("Game over!");//The text which user will view when game is over
@@ -170,6 +184,7 @@ namespace Snake
                 // food will be positioned randomly until they are not at the same row & column as snake head
                 if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
                 {
+                    Console.Beep();// Make a sound effect when food was eaten.
                     do
                     {
                         food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
