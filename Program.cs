@@ -89,8 +89,8 @@ namespace Snake
         public void SavePointsToFile(int userPoints)
         {
 
-            //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "\\userPoints.txt"); 
-            String filePath = @"C:\Users\User\SnakeGame\userPoints.txt";
+            
+            String filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
             try
             {
                 if (!File.Exists(filePath))
