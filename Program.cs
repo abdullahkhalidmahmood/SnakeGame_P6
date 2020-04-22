@@ -174,7 +174,7 @@ namespace Snake
             byte down = 2;
             byte up = 3;
             int lastFoodTime = 0;
-            int foodDissapearTime = 8000;
+            int foodDissapearTime = 10000; //food dissappears after 10 second 
             int negativePoints = 0;
             Position[] directions = new Position[4];
 
