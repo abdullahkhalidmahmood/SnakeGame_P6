@@ -86,7 +86,29 @@ namespace Snake
             obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
         }
 
-        
+        public void SavePointsToFile(int userPoints)
+        {
+
+            //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "\\userPoints.txt"); 
+            String filePath = @"C:\Users\User\SnakeGame\userPoints.txt";
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    File.Create(filePath).Dispose();
+                    File.WriteAllText(filePath, userPoints.ToString() + Environment.NewLine);
+                }
+                else
+                {
+                    File.AppendAllText(filePath, userPoints.ToString() + Environment.NewLine);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("{0} Exception caught.", exception);
+            }
+        }
+
         /// <summary>
         /// Funstions end here
         /// </summary>
@@ -217,6 +239,7 @@ namespace Snake
                     //if (userPoints < 0) userPoints = 0;
                     userPoints = Math.Max(userPoints, 0);
                     Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
+                    p.SavePointsToFile(userPoints);
                     Console.ReadLine();//This line shows the output initially missing in the program thus terminal closes
                     return;
                 }
