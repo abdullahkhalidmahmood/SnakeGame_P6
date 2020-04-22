@@ -235,7 +235,7 @@ namespace Snake
                     Console.SetCursorPosition(0, 0);
                     Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
                     Console.WriteLine("Game over!");//The text which user will view when game is over
-                    int userPoints = (snakeElements.Count - 6) * 100 - negativePoints;//points calculated for player
+                    int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
                     //if (userPoints < 0) userPoints = 0;
                     userPoints = Math.Max(userPoints, 0);
                     Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
