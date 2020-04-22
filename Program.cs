@@ -125,7 +125,9 @@ namespace Snake
                 userPoints = Math.Max(userPoints, 0);
                 Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
                 SavePointsToFile(userPoints);
-                Console.ReadLine();//This line shows the output initially missing in the program thus terminal closes
+                //exit game only when enter key is pressed
+                 Console.WriteLine("Press Enter to exit the game! ");
+                 while (Console.ReadKey().Key != ConsoleKey.Enter) {}
                 return 1;
             }
             return 0;
