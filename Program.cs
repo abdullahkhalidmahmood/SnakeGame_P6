@@ -86,6 +86,51 @@ namespace Snake
             obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
         }
 
+        public void CheckUserInput(ref int direction, byte right, byte left, byte down,byte up)
+        {
+            
+            //User key pressed statement: depends on which direction the user want to go to get food or avoid obstacle
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo userInput = Console.ReadKey();
+                if (userInput.Key == ConsoleKey.LeftArrow)
+                {
+                    if (direction != right) direction = left;
+                }
+                if (userInput.Key == ConsoleKey.RightArrow)
+                {
+                    if (direction != left) direction = right;
+                }
+                if (userInput.Key == ConsoleKey.UpArrow)
+                {
+                    if (direction != down) direction = up;
+                }
+                if (userInput.Key == ConsoleKey.DownArrow)
+                {
+                    if (direction != up) direction = down;
+                }
+            }
+        }
+        
+        public int GameOverCheck(Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles)
+        {
+            if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
+            {
+                SoundEffect();
+                Console.SetCursorPosition(0, 0);
+                Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
+                Console.WriteLine("Game over!");//The text which user will view when game is over
+                int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
+                                                                                  //if (userPoints < 0) userPoints = 0;
+                userPoints = Math.Max(userPoints, 0);
+                Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
+                SavePointsToFile(userPoints);
+                Console.ReadLine();//This line shows the output initially missing in the program thus terminal closes
+                return 1;
+            }
+            return 0;
+        }
+
         public void SavePointsToFile(int userPoints)
         {
 
@@ -151,8 +196,9 @@ namespace Snake
             Console.BufferHeight = Console.WindowHeight;
             lastFoodTime = Environment.TickCount;
 
-            
 
+            Console.WriteLine("Hello");
+            Thread.Sleep(5000);
             //Show the obstacle in the windows with marking of "="
             foreach (Position obstacle in obstacles)
             {
@@ -194,27 +240,8 @@ namespace Snake
                 //negative points increment depending how far the food is
                 negativePoints++;
 
-                //User key pressed statement: depends on which direction the user want to go to get food or avoid obstacle
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo userInput = Console.ReadKey();
-                    if (userInput.Key == ConsoleKey.LeftArrow)
-                    {
-                        if (direction != right) direction = left;
-                    }
-                    if (userInput.Key == ConsoleKey.RightArrow)
-                    {
-                        if (direction != left) direction = right;
-                    }
-                    if (userInput.Key == ConsoleKey.UpArrow)
-                    {
-                        if (direction != down) direction = up;
-                    }
-                    if (userInput.Key == ConsoleKey.DownArrow)
-                    {
-                        if (direction != up) direction = down;
-                    }
-                }
+                p.CheckUserInput(ref direction, right, left, down, up);
+              
                 //When the game starts the snake head is towards the end of his body with face direct to start from right.
                 Position snakeHead = snakeElements.Last();
                 Position nextDirection = directions[direction];
@@ -228,21 +255,13 @@ namespace Snake
                 if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
-                //If snake head hits the obstacle the game is over and the player will start a new game
-                if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
-                {
-                    p.SoundEffect();
-                    Console.SetCursorPosition(0, 0);
-                    Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
-                    Console.WriteLine("Game over!");//The text which user will view when game is over
-                    int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
-                    //if (userPoints < 0) userPoints = 0;
-                    userPoints = Math.Max(userPoints, 0);
-                    Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
-                    p.SavePointsToFile(userPoints);
-                    Console.ReadLine();//This line shows the output initially missing in the program thus terminal closes
+                /////////////////
+                int gameOver=p.GameOverCheck(snakeElements, snakeNewHead, negativePoints,obstacles);
+                if (gameOver == 1)
                     return;
-                }
+                //If snake head hits the obstacle the game is over and the player will start a new game
+                
+                ////////////////
                 //The way snake head will change as the player changes his direction
                 Console.SetCursorPosition(snakeHead.col, snakeHead.row);
                 p.DrawSnakeBody();
