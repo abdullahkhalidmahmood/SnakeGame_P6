@@ -34,10 +34,10 @@ namespace Snake
             SoundPlayer backgroundMusic = new SoundPlayer();
             
             //Locate the SoundPlayer to the correct sound directory
-            backgroundMusic.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeBGM_1_Extended.wav";
+            backgroundMusic.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeBGM_1.wav";
             
             //Play the background music at the beginning
-            backgroundMusic.Play();
+            backgroundMusic.PlayLooping();
         }
 
         public void SoundEffect()
@@ -280,13 +280,11 @@ namespace Snake
                 if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
-                /////////////////
+                //Check for GameOver Criteria
                 int gameOver=p.GameOverCheck(snakeElements, snakeNewHead, negativePoints,obstacles);
                 if (gameOver == 1)
                     return;
-                //If snake head hits the obstacle the game is over and the player will start a new game
-                
-                ////////////////
+               
                 //The way snake head will change as the player changes his direction
                 Console.SetCursorPosition(snakeHead.col, snakeHead.row);
                 p.DrawSnakeBody();
