@@ -143,6 +143,32 @@ namespace Snake
             return 0;
         }
 
+        /// <summary>
+        /// Add winning requirement, snake eat 3 food to win the game
+        /// </summary>
+        /// <param name="snakeElements"></param>
+        /// <param name="negativePoints"></param>
+        /// <returns></returns>
+        public int WinningCheck(Queue<Position> snakeElements, int negativePoints)
+        {
+            if (snakeElements.Count == 7)
+            {
+                Console.SetCursorPosition(0, 0);
+                Console.ForegroundColor = ConsoleColor.Green;//Text color for game over
+
+                int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
+                userPoints = Math.Max(userPoints, 0); //if (userPoints < 0) userPoints = 0;
+
+                PrintLinesInCenter("You Win!", "Your points are:" + userPoints, "Press enter to exit the game!");
+                SavePointsToFile(userPoints);//saving points to files
+
+                //close only when enter key is pressed
+                while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+                return 1;
+            }
+            return 0;
+        }
+
         public void GenerateFood(ref Position food, Queue<Position> snakeElements, List<Position> obstacles)
         {
             Random randomNumbersGenerator = new Random();
@@ -318,7 +344,11 @@ namespace Snake
                 int gameOver=p.GameOverCheck(snakeElements, snakeNewHead, negativePoints,obstacles);
                 if (gameOver == 1)
                     return;
-               
+
+                //Check for Winning Criteria
+                int winning = p.WinningCheck(snakeElements, negativePoints);
+                if (winning == 1) return;
+
                 //The way snake head will change as the player changes his direction
                 Console.SetCursorPosition(snakeHead.col, snakeHead.row);
                 p.DrawSnakeBody();
