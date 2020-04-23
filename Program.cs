@@ -239,9 +239,9 @@ namespace Snake
             {
                 Console.WriteLine(point);
             }*/
-            int highestPoint = scoreBoard.Select(int.Parse).Max();
-            
-            return highestPoint.ToString();
+            var max = scoreBoard.Select(int.Parse).Max();
+            string highestPoint = max.ToString();
+            return highestPoint;
         }
 
         //Printing game output
