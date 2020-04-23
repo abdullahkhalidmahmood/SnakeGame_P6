@@ -84,6 +84,13 @@ namespace Snake
             obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
             obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
             obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
+            
+            //Show the obstacle in the windows with marking of "="
+            foreach (Position obstacle in obstacles)
+            {
+                Console.SetCursorPosition(obstacle.col, obstacle.row);
+                DrawObstacle();
+            }
         }
 
         public void CheckUserInput(ref int direction, byte right, byte left, byte down,byte up)
@@ -202,6 +209,9 @@ namespace Snake
             int negativePoints = 0;
             Position[] directions = new Position[4];
 
+            Console.WriteLine("Hello");
+            Thread.Sleep(5000);
+
             Program p = new Program();
             p.BackgroundMusic();
 
@@ -222,14 +232,8 @@ namespace Snake
             lastFoodTime = Environment.TickCount;
 
 
-            Console.WriteLine("Hello");
-            Thread.Sleep(5000);
-            //Show the obstacle in the windows with marking of "="
-            foreach (Position obstacle in obstacles)
-            {
-                Console.SetCursorPosition(obstacle.col, obstacle.row);
-                p.DrawObstacle();
-            }
+            
+            
 
             //Initialise the snake position in top left corner of the windows
             //Havent draw the snake elements in the windows yet. Will be drawn in the code below
