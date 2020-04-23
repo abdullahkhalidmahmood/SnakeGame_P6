@@ -120,9 +120,9 @@ namespace Snake
         }
         
 
-        public int GameOverCheck(Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles)
+        public int GameOverCheck(int currentTime, Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles)
         {
-            if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
+            if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || (Environment.TickCount-currentTime) > 30000)
             {
                 SoundEffect();
                 Console.SetCursorPosition(0, 0);
@@ -291,6 +291,7 @@ namespace Snake
             byte left = 1;
             byte down = 2;
             byte up = 3;
+            
             int lastFoodTime = 0;
             int foodDissapearTime = 10000; //food dissappears after 10 second 
             int negativePoints = 0;
@@ -302,6 +303,7 @@ namespace Snake
             //Play background music
             p.DisplayStartScreen();
             p.BackgroundMusic();
+            int currentTime = Environment.TickCount;
 
             // Define direction with characteristic of index of array
             p.Direction(directions);
@@ -367,7 +369,7 @@ namespace Snake
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
                 //Check for GameOver Criteria
-                int gameOver=p.GameOverCheck(snakeElements, snakeNewHead, negativePoints,obstacles);
+                int gameOver=p.GameOverCheck(currentTime, snakeElements, snakeNewHead, negativePoints,obstacles);
                 if (gameOver == 1)
                     return;
 
