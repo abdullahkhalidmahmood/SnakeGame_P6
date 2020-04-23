@@ -45,9 +45,18 @@ namespace Snake
         /// </summary>
         public void LoseSoundEffect()
         {
-            SoundPlayer playerDie = new SoundPlayer();
-            playerDie.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeLose_1.wav";
-            playerDie.Play(); //Play the die sound effect after player died
+            SoundPlayer playerLose = new SoundPlayer();
+            playerLose.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeLose_1.wav";
+            playerLose.Play(); //Play the die sound effect after player died
+        }
+        /// <summary>
+        /// Play the sound effect when player win
+        /// </summary>
+        public void WinSoundEffect()
+        {
+            SoundPlayer playerWin = new SoundPlayer();
+            playerWin.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeWin_1.wav";
+            playerWin.Play(); //Play the die sound effect after player died
         }
 
         public void DrawFood()
@@ -156,6 +165,7 @@ namespace Snake
         {
             if (snakeElements.Count == 7)
             {
+                WinSoundEffect();
                 Console.SetCursorPosition(0, 0);
                 Console.ForegroundColor = ConsoleColor.Green;//Text color for game over
 
