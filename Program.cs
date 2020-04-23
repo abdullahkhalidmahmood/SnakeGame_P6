@@ -158,6 +158,25 @@ namespace Snake
             DrawFood();
         }
 
+        public void GenerateNewObstacle(ref Position food, Queue<Position> snakeElements, List<Position> obstacles)
+        {
+            Random randomNumbersGenerator = new Random();
+
+            Position obstacle = new Position();
+            do
+            {
+                obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
+                    randomNumbersGenerator.Next(0, Console.WindowWidth));
+            }
+            //if snake or obstacles are already at certain position, new obstacle will not be drawn there
+            //new obstacle will not be drawn at the same row & column of food
+            while (snakeElements.Contains(obstacle) ||
+                obstacles.Contains(obstacle) ||
+                (food.row == obstacle.row && food.col == obstacle.col));
+            obstacles.Add(obstacle);
+            Console.SetCursorPosition(obstacle.col, obstacle.row);
+            DrawObstacle();
+        }
 
         public void SavePointsToFile(int userPoints)
         {
@@ -279,6 +298,7 @@ namespace Snake
                 //negative points increment depending how far the food is
                 negativePoints++;
 
+                //Check the user input direction
                 p.CheckUserInput(ref direction, right, left, down, up);
               
                 //When the game starts the snake head is towards the end of his body with face direct to start from right.
@@ -325,21 +345,9 @@ namespace Snake
                     lastFoodTime = Environment.TickCount;
                     sleepTime--;
 
-                    //setting position of new obstacles randomly
-                    Position obstacle = new Position();
-                    do
-                    {
-                        obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                            randomNumbersGenerator.Next(0, Console.WindowWidth));
-                    }
-                    //if snake or obstacles are already at certain position, new obstacle will not be drawn there
-                    //new obstacle will not be drawn at the same row & column of food
-                    while (snakeElements.Contains(obstacle) ||
-                        obstacles.Contains(obstacle) ||
-                        (food.row != obstacle.row && food.col != obstacle.row));
-                    obstacles.Add(obstacle);
-                    Console.SetCursorPosition(obstacle.col, obstacle.row);
-                    p.DrawObstacle();
+                    //Generate new obstacle
+                    p.GenerateNewObstacle(ref food,snakeElements,obstacles);
+                    
                 }
                 else
                 {
@@ -362,8 +370,6 @@ namespace Snake
                     lastFoodTime = Environment.TickCount;
                 }
              
-                
-
                 //snake moving speed increased 
                 sleepTime -= 0.01;
 
