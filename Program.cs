@@ -230,16 +230,18 @@ namespace Snake
         /// <summary>
         /// Read the user points from text file
         /// </summary>
-        public void ReadPointsFromFile()
+        public string ReadPointsFromFile()
         {
 
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
             string[] scoreBoard = File.ReadAllLines(filePath);
-            foreach (string point in scoreBoard)
+            /*foreach (string point in scoreBoard)
             {
                 Console.WriteLine(point);
-            }
-
+            }*/
+            int highestPoint = scoreBoard.Select(int.Parse).Max();
+            
+            return highestPoint.ToString();
         }
 
         //Printing game output
@@ -266,13 +268,10 @@ namespace Snake
         public void DisplayStartScreen()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            PrintLinesInCenter("WELCOME TO SNAKE GAME", "Highest Score", "");
-            ReadPointsFromFile();
+            PrintLinesInCenter("WELCOME TO SNAKE GAME", "\n", "Highest Score", ReadPointsFromFile());
             Thread.Sleep(5000);
             Console.Clear();
         }
-
-
         /// <summary>
         /// Funstions end here
         /// </summary>
