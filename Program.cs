@@ -143,6 +143,22 @@ namespace Snake
             return 0;
         }
 
+        public void GenerateFood(ref Position food, Queue<Position> snakeElements, List<Position> obstacles)
+        {
+            Random randomNumbersGenerator = new Random();
+            do
+            {
+                food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), //Food generated within console height
+                    randomNumbersGenerator.Next(0, Console.WindowWidth)); //Food generate within console width
+            }
+            //a loop is created - while the program contains food and the obstacle is not hit 
+            //put food on different position which is "@"
+            while (snakeElements.Contains(food) || obstacles.Contains(food));
+            Console.SetCursorPosition(food.col, food.row);
+            DrawFood();
+        }
+
+
         public void SavePointsToFile(int userPoints)
         {
 
@@ -213,11 +229,13 @@ namespace Snake
             Thread.Sleep(5000);
 
             Program p = new Program();
+            //Play background music
             p.BackgroundMusic();
 
             // Define direction with characteristic of index of array
             p.Direction(directions);
 
+            // Initialised the obstacles location at the starting of the game
             List<Position> obstacles = new List<Position>();
             p.InitialRandomObstacles(obstacles);
 
@@ -245,16 +263,8 @@ namespace Snake
 
             //To position food randomly when the program runs first time
             Position food = new Position();
-            do
-            {
-                food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), //Food generated within console height
-                    randomNumbersGenerator.Next(0, Console.WindowWidth)); //Food generate within console width
-            }
-            //a loop is created - while the program contains food and the obstacle is not hit 
-            //put food on different position which is "@"
-            while (snakeElements.Contains(food) || obstacles.Contains(food));
-            Console.SetCursorPosition(food.col, food.row);
-            p.DrawFood();
+            p.GenerateFood(ref food,snakeElements,obstacles);
+            
 
             //while the game is running position snake on terminal with shape "*"
             foreach (Position position in snakeElements)
@@ -307,18 +317,12 @@ namespace Snake
                 if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
                 {
                     Console.Beep();// Make a sound effect when food was eaten.
-                    do
-                    {
-                        food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                            randomNumbersGenerator.Next(0, Console.WindowWidth));
-                    }
+                    p.GenerateFood(ref food, snakeElements, obstacles);
+                    
 
                     //when the snake eat the food, the system tickcount will be set as lastFoodTime
                     //new food will be drawn, snake speed will increases
-                    while (snakeElements.Contains(food) || obstacles.Contains(food));
                     lastFoodTime = Environment.TickCount;
-                    Console.SetCursorPosition(food.col, food.row);
-                    p.DrawFood();
                     sleepTime--;
 
                     //setting position of new obstacles randomly
@@ -353,17 +357,12 @@ namespace Snake
                     Console.SetCursorPosition(food.col, food.row);
                     Console.Write(" ");
 
-                    do
-                    {
-                        food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                            randomNumbersGenerator.Next(0, Console.WindowWidth));
-                    }
-                    while (snakeElements.Contains(food) || obstacles.Contains(food));
+                    //Generate the new food and record the system tick count
+                    p.GenerateFood(ref food, snakeElements, obstacles);
                     lastFoodTime = Environment.TickCount;
                 }
-                //draw food
-                Console.SetCursorPosition(food.col, food.row);
-                p.DrawFood();
+             
+                
 
                 //snake moving speed increased 
                 sleepTime -= 0.01;
