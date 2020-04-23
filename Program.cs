@@ -260,6 +260,18 @@ namespace Snake
             }
         }
 
+        /// <summary>
+        /// To display welcome message and score at start of game
+        /// </summary>
+        public void DisplayStartScreen()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            PrintLinesInCenter("WELCOME TO SNAKE GAME", "Highest Score", "");
+            ReadPointsFromFile();
+            Thread.Sleep(5000);
+            Console.Clear();
+        }
+
 
         /// <summary>
         /// Funstions end here
@@ -285,11 +297,11 @@ namespace Snake
             int negativePoints = 0;
             Position[] directions = new Position[4];
 
-            Console.WriteLine("Hello");
-            Thread.Sleep(5000);
+            
 
             Program p = new Program();
             //Play background music
+            p.DisplayStartScreen();
             p.BackgroundMusic();
 
             // Define direction with characteristic of index of array
