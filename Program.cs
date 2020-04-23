@@ -40,10 +40,13 @@ namespace Snake
             backgroundMusic.PlayLooping();
         }
 
-        public void SoundEffect()
+        /// <summary>
+        /// Play the sound effect when player lose
+        /// </summary>
+        public void LoseSoundEffect()
         {
             SoundPlayer playerDie = new SoundPlayer();
-            playerDie.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeDie_1.wav";
+            playerDie.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeLose_1.wav";
             playerDie.Play(); //Play the die sound effect after player died
         }
 
@@ -124,7 +127,7 @@ namespace Snake
         {
             if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || (Environment.TickCount-currentTime) > 30000)
             {
-                SoundEffect();
+                LoseSoundEffect();
                 Console.SetCursorPosition(0, 0);
                 Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
                
