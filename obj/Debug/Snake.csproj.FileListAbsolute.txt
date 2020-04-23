@@ -18,3 +18,4 @@ C:\Users\User\SnakeGame\obj\Debug\Snake.pdb
 \\mac\Home\Documents\SnakeGameProject\obj\Debug\Snake.csproj.CoreCompileInputs.cache
 \\mac\Home\Documents\SnakeGameProject\obj\Debug\Snake.exe
 \\mac\Home\Documents\SnakeGameProject\obj\Debug\Snake.pdb
+\\mac\Home\Documents\SnakeGameProject\obj\Debug\Snake.csprojAssemblyReference.cache

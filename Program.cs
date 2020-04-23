@@ -112,6 +112,7 @@ namespace Snake
             }
         }
         
+
         public int GameOverCheck(Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles)
         {
             if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
@@ -119,15 +120,17 @@ namespace Snake
                 SoundEffect();
                 Console.SetCursorPosition(0, 0);
                 Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
-                Console.WriteLine("Game over!");//The text which user will view when game is over
+               
                 int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
-                                                                                  //if (userPoints < 0) userPoints = 0;
-                userPoints = Math.Max(userPoints, 0);
-                Console.WriteLine("Your points are: {0}", userPoints);//player total points shown once the game is over
-                SavePointsToFile(userPoints);
-                //exit game only when enter key is pressed
-                 Console.WriteLine("Press Enter to exit the game! ");
-                 while (Console.ReadKey().Key != ConsoleKey.Enter) {}
+                userPoints = Math.Max(userPoints, 0); //if (userPoints < 0) userPoints = 0;
+                
+                //Display all 
+                PrintLinesInCenter("Game Over!", "Your points are:" + userPoints, "Press enter to exit the game!");
+                
+                SavePointsToFile(userPoints);//saving points to files
+
+                //close only when enter key is pressed
+                while (Console.ReadKey().Key != ConsoleKey.Enter) {}
                 return 1;
             }
             return 0;
@@ -155,6 +158,25 @@ namespace Snake
                 Console.WriteLine("{0} Exception caught.", exception);
             }
         }
+
+        //Printing game output
+        private static void PrintLinesInCenter(params string[] lines)
+        {
+            int verticalStart = (Console.WindowHeight - lines.Length) / 2; // work out where to start printing the lines
+            int verticalPosition = verticalStart;
+            foreach (var line in lines)
+            {
+                // work out where to start printing the line text horizontally
+                int horizontalStart = (Console.WindowWidth - line.Length) / 2;
+                // set the start position for this line of text
+                Console.SetCursorPosition(horizontalStart, verticalPosition);
+                // write the text
+                Console.Write(line);
+                // move to the next line
+                ++verticalPosition;
+            }
+        }
+
 
         /// <summary>
         /// Funstions end here
@@ -189,6 +211,7 @@ namespace Snake
             List<Position> obstacles = new List<Position>();
             p.InitialRandomObstacles(obstacles);
 
+            
 
             //Do the initialization for sleepTime (Game's Speed), Snake's direction and food timing
             //Limit the number of rows of text accessible in the console window
