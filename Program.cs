@@ -227,6 +227,21 @@ namespace Snake
             }
         }
 
+        /// <summary>
+        /// Read the user points from text file
+        /// </summary>
+        public void ReadPointsFromFile()
+        {
+
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
+            string[] scoreBoard = File.ReadAllLines(filePath);
+            foreach (string point in scoreBoard)
+            {
+                Console.WriteLine(point);
+            }
+
+        }
+
         //Printing game output
         private static void PrintLinesInCenter(params string[] lines)
         {
