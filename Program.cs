@@ -316,13 +316,13 @@ namespace Snake
         /// <param name="lines"></param>
         private static void PrintLinesInCenter(params string[] lines)
         {
-            int verticalStart = (Console.WindowHeight - lines.Length) / 2; // work out where to start printing the lines
+            int verticalStart = (Console.WindowHeight - lines.Length) / 2; //  printing the lines
             int verticalPosition = verticalStart;
             foreach (var line in lines)
             {
-                // work out where to start printing the line text horizontally
+                // start printing the line text horizontally
                 int horizontalStart = (Console.WindowWidth - line.Length) / 2;
-                // set the start position for this line of text
+                // start position for this line of text
                 Console.SetCursorPosition(horizontalStart, verticalPosition);
                 // write the text
                 Console.Write(line);
