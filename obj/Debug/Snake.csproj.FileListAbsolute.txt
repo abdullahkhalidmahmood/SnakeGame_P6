@@ -19,3 +19,10 @@ C:\Users\User\SnakeGame\obj\Debug\Snake.pdb
 \\mac\Home\Documents\SnakeGameProject\obj\Debug\Snake.exe
 \\mac\Home\Documents\SnakeGameProject\obj\Debug\Snake.pdb
 \\mac\Home\Documents\SnakeGameProject\obj\Debug\Snake.csprojAssemblyReference.cache
+C:\Users\60173\Documents\DP1\bin\Debug\Snake.exe.config
+C:\Users\60173\Documents\DP1\bin\Debug\Snake.exe
+C:\Users\60173\Documents\DP1\bin\Debug\Snake.pdb
+C:\Users\60173\Documents\DP1\obj\Debug\Snake.csprojAssemblyReference.cache
+C:\Users\60173\Documents\DP1\obj\Debug\Snake.csproj.CoreCompileInputs.cache
+C:\Users\60173\Documents\DP1\obj\Debug\Snake.exe
+C:\Users\60173\Documents\DP1\obj\Debug\Snake.pdb
