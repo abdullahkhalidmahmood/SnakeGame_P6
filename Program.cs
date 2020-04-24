@@ -11,7 +11,9 @@ using System.Data;
 
 namespace Snake
 {
-    //Define a structure for the position for every object in the game by row and column
+    /// <summary>
+    /// Define a structure for the position for every object in the game by row and column
+    /// </summary>
     struct Position
     {
         public int row;
@@ -23,10 +25,11 @@ namespace Snake
         }
     }
 
+
     class Program
     {
         /// <summary>
-        /// Functions start here
+        /// function for playing background music
         /// </summary>
         public void BackgroundMusic()
         {
@@ -41,7 +44,7 @@ namespace Snake
         }
 
         /// <summary>
-        /// Play the sound effect when player lose
+        /// function to play sound effect when game over
         /// </summary>
         public void LoseSoundEffect()
         {
@@ -50,33 +53,46 @@ namespace Snake
             playerLose.Play(); //Play the die sound effect after player died
         }
         /// <summary>
-        /// Play the sound effect when player win
+        /// function to play the sound effect when player win
         /// </summary>
         public void WinSoundEffect()
         {
             SoundPlayer playerWin = new SoundPlayer();
             playerWin.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeWin_1.wav";
-            playerWin.Play(); //Play the die sound effect after player died
+            playerWin.Play(); 
         }
 
+        /// <summary>
+        /// function to draw food in yellow "@" 
+        /// </summary>
         public void DrawFood()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("@");
         }
         
+        /// <summary>
+        /// function to draw obstacle in cyan "="
+        /// </summary>
         public void DrawObstacle()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("=");
         }
 
+        /// <summary>
+        /// function to draw snake body in dark grey "*"
+        /// </summary>
         public void DrawSnakeBody()
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("*");
         }
         
+        /// <summary>
+        /// array to store directions, elements in game move depends on user direction key input
+        /// </summary>
+        /// <param name="directions"></param>
         public void Direction(Position[] directions)
         {
             
@@ -86,6 +102,11 @@ namespace Snake
             directions[3] = new Position(-1, 0);
 
         }
+
+        /// <summary>
+        /// function to place first 5 obstacles randomly when game start
+        /// </summary>
+        /// <param name="obstacles"></param>
        public void InitialRandomObstacles(List<Position>obstacles)
         {
             //Create obstacles objects and initialise certain random position of obstacles at every game play
@@ -105,6 +126,14 @@ namespace Snake
             }
         }
 
+        /// <summary>
+        /// function for reading user direction key input
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="right"></param>
+        /// <param name="left"></param>
+        /// <param name="down"></param>
+        /// <param name="up"></param>
         public void CheckUserInput(ref int direction, byte right, byte left, byte down,byte up)
         {
             
@@ -131,19 +160,27 @@ namespace Snake
             }
         }
         
-
+        /// <summary>
+        /// Check for Game over requirements, if snake eats itself, hit on obstacle or did not eat 3 food within 30 seconds, game over
+        /// </summary>
+        /// <param name="currentTime"></param>
+        /// <param name="snakeElements"></param>
+        /// <param name="snakeNewHead"></param>
+        /// <param name="negativePoints"></param>
+        /// <param name="obstacles"></param>
+        /// <returns></returns>
         public int GameOverCheck(int currentTime, Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles)
         {
             if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || (Environment.TickCount-currentTime) > 30000)
             {
-                LoseSoundEffect();
+                LoseSoundEffect(); //this sound effect will be play if game over
                 Console.SetCursorPosition(0, 0);
                 Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
                
                 int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
                 userPoints = Math.Max(userPoints, 0); //if (userPoints < 0) userPoints = 0;
                 
-                //Display all 
+                //Display game over text and points
                 PrintLinesInCenter("Game Over!", "Your points are:" + userPoints, "Press enter to exit the game!");
                 
                 SavePointsToFile(userPoints);//saving points to files
@@ -156,22 +193,24 @@ namespace Snake
         }
 
         /// <summary>
-        /// Add winning requirement, snake eat 3 food to win the game
+        /// Add winning requirement, snake eat 3 food within 30 seconds to win the game
         /// </summary>
         /// <param name="snakeElements"></param>
         /// <param name="negativePoints"></param>
         /// <returns></returns>
         public int WinningCheck(Queue<Position> snakeElements, int negativePoints)
         {
+            // initially snake elements has 4, increment 1 by eating 1 food, so eat 3 food to get 7 snake elements 
             if (snakeElements.Count == 7)
             {
-                WinSoundEffect();
+                WinSoundEffect(); //thissound effect plays when game won  
                 Console.SetCursorPosition(0, 0);
-                Console.ForegroundColor = ConsoleColor.Green;//Text color for game over
+                Console.ForegroundColor = ConsoleColor.Green;//Text color for game won
 
                 int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
                 userPoints = Math.Max(userPoints, 0); //if (userPoints < 0) userPoints = 0;
 
+                //display game won text and user points
                 PrintLinesInCenter("You Win!", "Your points are:" + userPoints, "Press enter to exit the game!");
                 SavePointsToFile(userPoints);//saving points to files
 
@@ -182,6 +221,12 @@ namespace Snake
             return 0;
         }
 
+        /// <summary>
+        /// function to generate new food randomly with conditions 
+        /// </summary>
+        /// <param name="food"></param>
+        /// <param name="snakeElements"></param>
+        /// <param name="obstacles"></param>
         public void GenerateFood(ref Position food, Queue<Position> snakeElements, List<Position> obstacles)
         {
             Random randomNumbersGenerator = new Random();
@@ -197,6 +242,12 @@ namespace Snake
             DrawFood();
         }
 
+        /// <summary>
+        /// function to generate new obstacle randomly if conditions
+        /// </summary>
+        /// <param name="food"></param>
+        /// <param name="snakeElements"></param>
+        /// <param name="obstacles"></param>
         public void GenerateNewObstacle(ref Position food, Queue<Position> snakeElements, List<Position> obstacles)
         {
             Random randomNumbersGenerator = new Random();
@@ -209,21 +260,23 @@ namespace Snake
             }
             //if snake or obstacles are already at certain position, new obstacle will not be drawn there
             //new obstacle will not be drawn at the same row & column of food
-            while (snakeElements.Contains(obstacle) ||
-                obstacles.Contains(obstacle) ||
-                (food.row == obstacle.row && food.col == obstacle.col));
+            while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row == obstacle.row && food.col == obstacle.col));
             obstacles.Add(obstacle);
             Console.SetCursorPosition(obstacle.col, obstacle.row);
             DrawObstacle();
         }
 
+        /// <summary>
+        /// to get the user points and save the value to text file
+        /// </summary>
+        /// <param name="userPoints"></param>
         public void SavePointsToFile(int userPoints)
         {
-
-            
+            //declare the file path
             String filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
             try
             {
+                //if there is no such text file in the folder, it will be created before saving the points into it
                 if (!File.Exists(filePath))
                 {
                     File.Create(filePath).Dispose();
@@ -231,6 +284,7 @@ namespace Snake
                 }
                 else
                 {
+                    //if there are points exist in the text file, new points will be saved in next line
                     File.AppendAllText(filePath, userPoints.ToString() + Environment.NewLine);
                 }
             }
@@ -245,19 +299,21 @@ namespace Snake
         /// </summary>
         public string ReadPointsFromFile()
         {
-
+            //declare file path 
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
+            //read all the contents in text file and store in an array
             string[] scoreBoard = File.ReadAllLines(filePath);
-            /*foreach (string point in scoreBoard)
-            {
-                Console.WriteLine(point);
-            }*/
-            var max = scoreBoard.Select(int.Parse).Max();
+            //find the highest points from the array
+            int max = scoreBoard.Select(int.Parse).Max();
+            // convert integer to string 
             string highestPoint = max.ToString();
             return highestPoint;
         }
 
-        //Printing game output
+        /// <summary>
+        /// function to print text in center of game screen
+        /// </summary>
+        /// <param name="lines"></param>
         private static void PrintLinesInCenter(params string[] lines)
         {
             int verticalStart = (Console.WindowHeight - lines.Length) / 2; // work out where to start printing the lines
@@ -276,19 +332,18 @@ namespace Snake
         }
 
         /// <summary>
-        /// To display welcome message and score at start of game
+        /// To display welcome message and highest score at start of game
         /// </summary>
         public void DisplayStartScreen()
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            PrintLinesInCenter("WELCOME TO SNAKE GAME", "\n", "Highest Score", ReadPointsFromFile());
-            Thread.Sleep(5000);
+            Console.ForegroundColor = ConsoleColor.Cyan; //text color for text display
+            //display welcome message and highest score 
+            PrintLinesInCenter("WELCOME TO SNAKE GAME", "\n", "Highest Score", ReadPointsFromFile()); 
+            //start screen stay for 3 seconds
+            Thread.Sleep(3000);
+            //start screen clear before game start
             Console.Clear();
         }
-        /// <summary>
-        /// Funstions end here
-        /// </summary>
-
 
 
         /// <summary>
@@ -304,19 +359,17 @@ namespace Snake
             byte left = 1;
             byte down = 2;
             byte up = 3;
-            
+            int currentTime = Environment.TickCount;
             int lastFoodTime = 0;
             int foodDissapearTime = 10000; //food dissappears after 10 second 
             int negativePoints = 0;
             Position[] directions = new Position[4];
 
-            
-
             Program p = new Program();
-            //Play background music
+            //display start screen before background music and game start 
             p.DisplayStartScreen();
+            //Play background music
             p.BackgroundMusic();
-            int currentTime = Environment.TickCount;
 
             // Define direction with characteristic of index of array
             p.Direction(directions);
@@ -325,8 +378,6 @@ namespace Snake
             List<Position> obstacles = new List<Position>();
             p.InitialRandomObstacles(obstacles);
 
-            
-
             //Do the initialization for sleepTime (Game's Speed), Snake's direction and food timing
             //Limit the number of rows of text accessible in the console window
             double sleepTime = 100;
@@ -334,10 +385,6 @@ namespace Snake
             Random randomNumbersGenerator = new Random();
             Console.BufferHeight = Console.WindowHeight;
             lastFoodTime = Environment.TickCount;
-
-
-            
-            
 
             //Initialise the snake position in top left corner of the windows
             //Havent draw the snake elements in the windows yet. Will be drawn in the code below
@@ -351,7 +398,6 @@ namespace Snake
             Position food = new Position();
             p.GenerateFood(ref food,snakeElements,obstacles);
             
-
             //while the game is running position snake on terminal with shape "*"
             foreach (Position position in snakeElements)
             {
