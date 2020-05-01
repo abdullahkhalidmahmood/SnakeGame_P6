@@ -407,9 +407,16 @@ namespace Snake
 
             while (true)
             {
-                //negative points is initialized as 0 at the beginning of the game. As the player reaches out for food
-                //negative points increment depending how far the food is
-                negativePoints++;
+                //Display the food count down timer
+                int foodRemainingTime = 10 - (Environment.TickCount - lastFoodTime) / 1000;
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("                                               ");
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Food Remaining Time: "+ foodRemainingTime);
+
+               //negative points is initialized as 0 at the beginning of the game. As the player reaches out for food
+               //negative points increment depending how far the food is
+               negativePoints++;
 
                 //Check the user input direction
                 p.CheckUserInput(ref direction, right, left, down, up);
