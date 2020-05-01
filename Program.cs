@@ -172,7 +172,7 @@ namespace Snake
         public int GameOverCheck(int currentTime, Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles)
         {
             if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || (Environment.TickCount-currentTime) > 30000
-                || snakeNewHead.row >= Console.WindowHeight || snakeNewHead.col >= Console.WindowWidth || snakeNewHead.row < 0 || snakeNewHead.col < 0)
+                || snakeNewHead.row >= Console.WindowHeight || snakeNewHead.col >= Console.WindowWidth || snakeNewHead.row < 1 || snakeNewHead.col < 0)
             {
                 LoseSoundEffect(); //this sound effect will be play if game over
                 Console.SetCursorPosition(0, 0);
