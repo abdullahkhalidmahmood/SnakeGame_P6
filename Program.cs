@@ -267,6 +267,19 @@ namespace Snake
             DrawObstacle();
         }
 
+        public void PrintFoodCountDownTimer(int lastFoodTime)
+        {
+            int foodCountDownTimer = (10 - (Environment.TickCount - lastFoodTime) / 1000);
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("                                       ");
+            Console.SetCursorPosition(0, 0);
+            if(foodCountDownTimer==1)
+                Console.WriteLine("FoodCountDown: " + foodCountDownTimer + "Second");
+            else
+                Console.WriteLine("FoodCountDown: " + foodCountDownTimer + "Seconds");
+
+        }
+
         /// <summary>
         /// to get the user points and save the value to text file
         /// </summary>
@@ -310,6 +323,7 @@ namespace Snake
             string highestPoint = max.ToString();
             return highestPoint;
         }
+
 
         /// <summary>
         /// function to print text in center of game screen
@@ -410,6 +424,9 @@ namespace Snake
 
             while (true)
             {
+                //Print the food count down timer
+                p.PrintFoodCountDownTimer(lastFoodTime);
+
                 //negative points is initialized as 0 at the beginning of the game. As the player reaches out for food
                 //negative points increment depending how far the food is
                 negativePoints++;
