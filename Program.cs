@@ -12,7 +12,7 @@ using System.Data;
 namespace Snake
 {
     /// <summary>
-    /// Define a structure for the position for every object in the game by row and column
+    /// Define a structure for the position for every object in the game by row and column test
     /// </summary>
     struct Position
     {
@@ -171,7 +171,8 @@ namespace Snake
         /// <returns></returns>
         public int GameOverCheck(int currentTime, Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles)
         {
-            if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || (Environment.TickCount-currentTime) > 30000)
+            if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || (Environment.TickCount-currentTime) > 30000
+                || snakeNewHead.row >= Console.WindowHeight || snakeNewHead.col >= Console.WindowWidth || snakeNewHead.row < 0 || snakeNewHead.col < 0)
             {
                 LoseSoundEffect(); //this sound effect will be play if game over
                 Console.SetCursorPosition(0, 0);
@@ -363,6 +364,8 @@ namespace Snake
             int lastFoodTime = 0;
             int foodDissapearTime = 10000; //food dissappears after 10 second 
             int negativePoints = 0;
+            Console.SetWindowSize(56, 38);//reducing screen size 
+            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             Position[] directions = new Position[4];
 
             Program p = new Program();
@@ -422,10 +425,10 @@ namespace Snake
                 Position snakeNewHead = new Position(snakeHead.row + nextDirection.row,
                     snakeHead.col + nextDirection.col);
 
-                if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
+/*                if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
                 if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;
                 if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
-                if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
+                if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;*/
 
                 //Check for GameOver Criteria
                 int gameOver=p.GameOverCheck(currentTime, snakeElements, snakeNewHead, negativePoints,obstacles);
