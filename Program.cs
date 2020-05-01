@@ -110,13 +110,13 @@ namespace Snake
        public void InitialRandomObstacles(List<Position>obstacles)
         {
             //Create obstacles objects and initialise certain random position of obstacles at every game play
-            //The randomise obstacles will not exist in the first row at the beginning.
+            //The randomise obstacles will not exist in the first and second row at the beginning.
             Random randomNumbersGenerator = new Random();
-            obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
-            obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
-            obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
-            obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
-            obstacles.Add(new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
+            obstacles.Add(new Position(randomNumbersGenerator.Next(2, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
+            obstacles.Add(new Position(randomNumbersGenerator.Next(2, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
+            obstacles.Add(new Position(randomNumbersGenerator.Next(2, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
+            obstacles.Add(new Position(randomNumbersGenerator.Next(2, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
+            obstacles.Add(new Position(randomNumbersGenerator.Next(2, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth)));
             
             //Show the obstacle in the windows with marking of "="
             foreach (Position obstacle in obstacles)
@@ -257,7 +257,7 @@ namespace Snake
             do
             {
                 obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                    randomNumbersGenerator.Next(0, Console.WindowWidth));
+                    randomNumbersGenerator.Next(1, Console.WindowWidth));
             }
             //if snake or obstacles are already at certain position, new obstacle will not be drawn there
             //new obstacle will not be drawn at the same row & column of food
