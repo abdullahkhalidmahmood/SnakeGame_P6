@@ -422,9 +422,10 @@ namespace Snake
                 Position snakeNewHead = new Position(snakeHead.row + nextDirection.row,
                     snakeHead.col + nextDirection.col);
 
+                //Limit the snake working range to 2nd row from top until the window height
                 if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
-                if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;
-                if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
+                if (snakeNewHead.row < 1) snakeNewHead.row = Console.WindowHeight - 1;
+                if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 1;
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
                 //Check for GameOver Criteria
