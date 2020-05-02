@@ -8,6 +8,7 @@ using System.Media;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using System.Data;
+using System.Runtime.InteropServices;
 
 namespace Snake
 {
@@ -28,6 +29,23 @@ namespace Snake
 
     class Program
     {
+        //declare global variable for console menu 
+        public const int console = 0x00000000;
+        public const int maximizeButton = 0xF030; //maximize button
+        public const int consoleBorder = 0xF000; //console border
+
+        // function to disable the functionality of menu items
+        [DllImport("user32.dll")]
+        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+
+        // function to enable the access to system menu
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        // function to retrieve the console window handle 
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+
         /// <summary>
         /// function for playing background music
         /// </summary>
@@ -358,9 +376,8 @@ namespace Snake
             Thread.Sleep(3000);
             //start screen clear before game start
             Console.Clear();
-        }
-
-
+        }      
+    
         /// <summary>
         /// Main starts here
         /// </summary>
@@ -380,9 +397,17 @@ namespace Snake
             int negativePoints = 0;
             Console.SetWindowSize(56, 38);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+            
+
             Position[] directions = new Position[4];
 
             Program p = new Program();
+            
+            //disbale the resize of console window by disabling maximize button and border dragging
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), maximizeButton, console);
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), consoleBorder, console);
+
+            //p.FixedGameScreen();
             //display start screen before background music and game start 
             p.DisplayStartScreen();
             //Play background music
