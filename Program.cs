@@ -251,7 +251,7 @@ namespace Snake
             Random randomNumbersGenerator = new Random();
             do
             {
-                food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), //Food generated within console height
+                food = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), //Food generated from 2nd row to console height
                     randomNumbersGenerator.Next(0, Console.WindowWidth)); //Food generate within console width
             }
             //a loop is created - while the program contains food and the obstacle is not hit 
@@ -284,7 +284,10 @@ namespace Snake
             Console.SetCursorPosition(obstacle.col, obstacle.row);
             DrawObstacle();
         }
-
+        /// <summary>
+        /// Display the Food Count Down Timer
+        /// </summary>
+        /// <param name="lastFoodTime"></param>
         public void PrintFoodCountDownTimer(int lastFoodTime)
         {
             int foodCountDownTimer = (10 - (Environment.TickCount - lastFoodTime) / 1000);

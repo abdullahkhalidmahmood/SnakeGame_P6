@@ -47,3 +47,10 @@ C:\Users\User\SnakeGame_P6\obj\Debug\Snake.csprojAssemblyReference.cache
 C:\Users\User\SnakeGame_P6\obj\Debug\Snake.csproj.CoreCompileInputs.cache
 C:\Users\User\SnakeGame_P6\obj\Debug\Snake.exe
 C:\Users\User\SnakeGame_P6\obj\Debug\Snake.pdb
+C:\Users\yeatn\Documents\SnakeGame_P6\bin\Debug\Snake.exe.config
+C:\Users\yeatn\Documents\SnakeGame_P6\bin\Debug\Snake.exe
+C:\Users\yeatn\Documents\SnakeGame_P6\bin\Debug\Snake.pdb
+C:\Users\yeatn\Documents\SnakeGame_P6\obj\Debug\Snake.csprojAssemblyReference.cache
+C:\Users\yeatn\Documents\SnakeGame_P6\obj\Debug\Snake.csproj.CoreCompileInputs.cache
+C:\Users\yeatn\Documents\SnakeGame_P6\obj\Debug\Snake.exe
+C:\Users\yeatn\Documents\SnakeGame_P6\obj\Debug\Snake.pdb
