@@ -379,8 +379,25 @@ namespace Snake
             Thread.Sleep(3000);
             //start screen clear before game start
             Console.Clear();
-        }      
-    
+        }
+
+        /// <summary>
+        /// function to print and update user points during the game play
+        /// </summary>
+        /// <param name="userPoints"></param>
+        /// <param name="snakeElements"></param>
+        /// <param name="negativePoints"></param>
+        public void PrintUserPoint(int userPoints, Queue<Position> snakeElements, int negativePoints)
+        {
+            userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
+            userPoints = Math.Max(userPoints, 0); //if (userPoints < 0) userPoints = 0;
+            Console.SetCursorPosition(40, 0);
+            Console.WriteLine("                  ");
+            Console.SetCursorPosition(40, 0);
+            Console.WriteLine("Score: {0}", userPoints);
+        }
+
+
         /// <summary>
         /// Main starts here
         /// </summary>
@@ -398,6 +415,7 @@ namespace Snake
             int lastFoodTime = 0;
             int foodDissapearTime = 10000; //food dissappears after 10 second 
             int negativePoints = 0;
+            int userPoints = 0;
             Console.SetWindowSize(56, 38);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             
@@ -410,7 +428,7 @@ namespace Snake
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), maximizeButton, console);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), consoleBorder, console);
 
-            //p.FixedGameScreen();
+       
             //display start screen before background music and game start 
             p.DisplayStartScreen();
             //Play background music
@@ -474,6 +492,9 @@ namespace Snake
                 if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;
                 if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;*/
+
+                //print realtime user points
+                p.PrintUserPoint(userPoints, snakeElements, negativePoints);
 
                 //Check for GameOver Criteria
                 int gameOver=p.GameOverCheck(currentTime, snakeElements, snakeNewHead, negativePoints,obstacles);
