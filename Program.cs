@@ -449,12 +449,12 @@ namespace Snake
             Console.BufferHeight = Console.WindowHeight;
             lastFoodTime = Environment.TickCount;
 
-            //Initialise the snake position in 2nd row of top left corner of the windows
+            //Initialise the snake position in 3rd row of top left corner of the windows
             //Havent draw the snake elements in the windows yet. Will be drawn in the code below
             Queue<Position> snakeElements = new Queue<Position>();
             for (int i = 0; i <= 3; i++) // Length of the snake was reduced to 3 units of *
             {
-                snakeElements.Enqueue(new Position(1, i));
+                snakeElements.Enqueue(new Position(2, i));
             }
 
             //To position food randomly when the program runs first time
