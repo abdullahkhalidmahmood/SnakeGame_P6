@@ -438,6 +438,19 @@ namespace Snake
             Console.WriteLine("DieTime: " + dieTime);
         }
         /// <summary>
+        /// Display the accumulated points from previous life of game
+        /// </summary>
+        /// <param name="finalScore"></param>
+        public void PrintAccumulatedScore(int finalScore)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(70, 0);
+            Console.WriteLine("               ");
+            Console.SetCursorPosition(70, 0);
+            Console.WriteLine("Accumulated Score: " + finalScore);
+        }
+
+        /// <summary>
         /// Main starts here
         /// </summary>
         //Define direction by using index number
@@ -524,6 +537,8 @@ namespace Snake
                     p.PrintFoodCountDownTimer(lastFoodTime);
                     //Print the time left for the game
                     p.PrintDieTime(gameStartTime, dieCountDownTime);
+                    //Print the accumulated score so far from the previous life game
+                    p.PrintAccumulatedScore(finalScore);
 
                     //negative points is initialized as 0 at the beginning of the game. As the player reaches out for food
                     //negative points increment depending how far the food is
