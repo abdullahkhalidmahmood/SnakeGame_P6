@@ -274,7 +274,7 @@ namespace Snake
             Position obstacle = new Position();
             do
             {
-                obstacle = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
+                obstacle = new Position(randomNumbersGenerator.Next(2, Console.WindowHeight),
                     randomNumbersGenerator.Next(1, Console.WindowWidth));
             }
             //if snake or obstacles are already at certain position, new obstacle will not be drawn there
