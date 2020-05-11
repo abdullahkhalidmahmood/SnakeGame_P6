@@ -196,6 +196,7 @@ namespace Snake
                 //The player will get game over if his life becomes 0
                 if (life == 0)
                 {
+                    PrintLifePoint(life);
                     LoseSoundEffect(); //this sound effect will be play if game over
                     Console.SetCursorPosition(0, 0);
                     Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
@@ -399,7 +400,21 @@ namespace Snake
             Console.SetCursorPosition(40, 0);
             Console.WriteLine("Point: {0}", userPoints);
         }
-
+        /// <summary>
+        /// Print the life point
+        /// </summary>
+        /// <param name="life"></param>
+        public void PrintLifePoint(int life)
+        {
+            if(life==0)
+                Console.ForegroundColor = ConsoleColor.Red;//Text color for 0 life point
+            else
+                Console.ForegroundColor = ConsoleColor.Green;//Text color for life point more than 0
+            Console.SetCursorPosition(40, 1);
+            Console.WriteLine("               ");
+            Console.SetCursorPosition(40, 1);
+            Console.WriteLine("Life: "+life);
+        }
 
         /// <summary>
         /// Main starts here
@@ -445,7 +460,8 @@ namespace Snake
                 int negativePoints = 0;
                 //Clear the console everytime start the game in new life
                 Console.Clear();
-                
+                p.PrintLifePoint(life);
+
                 // Initialised the obstacles location at the starting of the game
                 List<Position> obstacles = new List<Position>();
                 p.InitialRandomObstacles(obstacles);
