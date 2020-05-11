@@ -251,7 +251,7 @@ namespace Snake
             Random randomNumbersGenerator = new Random();
             do
             {
-                food = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight), //Food generated from 2nd row to console height
+                food = new Position(randomNumbersGenerator.Next(2, Console.WindowHeight), //Food generated from 3rd row to console height
                     randomNumbersGenerator.Next(0, Console.WindowWidth)); //Food generate within console width
             }
             //a loop is created - while the program contains food and the obstacle is not hit 
