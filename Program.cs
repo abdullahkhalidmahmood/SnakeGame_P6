@@ -68,7 +68,7 @@ namespace Snake
         {
             SoundPlayer playerLose = new SoundPlayer();
             playerLose.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeLose_1.wav";
-            playerLose.Play(); //Play the die sound effect after player died
+            playerLose.Play(); //Play the lose sound effect after player died
         }
         /// <summary>
         /// function to play the sound effect when player win
@@ -79,7 +79,15 @@ namespace Snake
             playerWin.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeWin_1.wav";
             playerWin.Play(); 
         }
-
+        /// <summary>
+        /// function to play the sound effect when the playeer dead
+        /// </summary>
+        public void DieSoundEffect()
+        {
+            SoundPlayer playerDie = new SoundPlayer();
+            playerDie.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/SnakeDie_1.wav";
+            playerDie.Play();
+        }
         /// <summary>
         /// function to draw food in yellow "@" 
         /// </summary>
@@ -215,7 +223,8 @@ namespace Snake
                 }
                 //Tell the player that he/she dies and delay for a while to let player ready for next game
                 PrintLinesInCenter("YOU DIED", "NOOB");
-                Thread.Sleep(3000);
+                DieSoundEffect();//this sound effect will be played if the player died
+                Thread.Sleep(3000);// Pause for 3 seconds to let the player get ready for next game
                 finalScore += userPoints;
                 return 1;
             }
