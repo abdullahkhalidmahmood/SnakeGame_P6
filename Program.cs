@@ -416,7 +416,7 @@ namespace Snake
             int foodDissapearTime = 10000; //food dissappears after 10 second 
             int negativePoints = 0;
             int userPoints = 0;
-            Console.SetWindowSize(56, 38);//reducing screen size 
+            Console.SetWindowSize(100, 38);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             
 
