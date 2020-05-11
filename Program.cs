@@ -196,8 +196,10 @@ namespace Snake
                 //The player will get game over if his life becomes 0
                 if (life == 0)
                 {
+                   
                     PrintLifePoint(life);
                     finalScore += userPoints;
+                    PrintAccumulatedScore(finalScore);
                     LoseSoundEffect(); //this sound effect will be play if game over
                     Console.SetCursorPosition(0, 0);
                     Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
@@ -211,6 +213,9 @@ namespace Snake
                     while (Console.ReadKey().Key != ConsoleKey.Enter) { }
                     return 1;
                 }
+                //Tell the player that he/she dies and delay for a while to let player ready for next game
+                PrintLinesInCenter("YOU DIED", "NOOB");
+                Thread.Sleep(3000);
                 finalScore += userPoints;
                 return 1;
             }
