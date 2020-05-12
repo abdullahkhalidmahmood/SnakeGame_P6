@@ -509,7 +509,7 @@ namespace Snake
             double sleepTime = 100;
             int numofObstacles = 0;
             string userName = "-";
-            Console.SetWindowSize(100, 38);//reducing screen size 
+            Console.SetWindowSize(80, 30);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             
 
