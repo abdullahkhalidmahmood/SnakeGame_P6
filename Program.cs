@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 
 namespace Snake
 {
+    
     /// <summary>
     /// Define a structure for the position for every object in the game by row and column test
     /// </summary>
@@ -29,6 +30,8 @@ namespace Snake
 
     class Program
     {
+        private static int index = 0;
+
         //declare global variable for console menu 
         public const int console = 0x00000000;
         public const int maximizeButton = 0xF030; //maximize button
@@ -286,30 +289,35 @@ namespace Snake
         /// <param name="food"></param>
         /// <param name="snakeElements"></param>
         /// <param name="obstacles"></param>
-        public void GenerateNewObstacle(ref Position food, Queue<Position> snakeElements, List<Position> obstacles)
+        public void GenerateNewObstacle(ref Position food, Queue<Position> snakeElements, List<Position> obstacles, int numofObstacles)
         {
             Random randomNumbersGenerator = new Random();
 
             Position obstacle = new Position();
-            do
+            for (int a = 0; a < numofObstacles; a++)
             {
-                obstacle = new Position(randomNumbersGenerator.Next(2, Console.WindowHeight),
-                    randomNumbersGenerator.Next(1, Console.WindowWidth));
+
+                do
+                {
+                    obstacle = new Position(randomNumbersGenerator.Next(2, Console.WindowHeight),
+                        randomNumbersGenerator.Next(1, Console.WindowWidth));
+                }
+                //if snake or obstacles are already at certain position, new obstacle will not be drawn there
+                //new obstacle will not be drawn at the same row & column of food
+                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row == obstacle.row && food.col == obstacle.col));
+                obstacles.Add(obstacle);
+                Console.SetCursorPosition(obstacle.col, obstacle.row);
+                DrawObstacle();
             }
-            //if snake or obstacles are already at certain position, new obstacle will not be drawn there
-            //new obstacle will not be drawn at the same row & column of food
-            while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row == obstacle.row && food.col == obstacle.col));
-            obstacles.Add(obstacle);
-            Console.SetCursorPosition(obstacle.col, obstacle.row);
-            DrawObstacle();
         }
         /// <summary>
         /// Display the Food Count Down Timer
         /// </summary>
         /// <param name="lastFoodTime"></param>
-        public void PrintFoodCountDownTimer(int lastFoodTime)
+        public void PrintFoodCountDownTimer(int lastFoodTime, int foodDissapearTime)
         {
-            int foodCountDownTimer = (10 - (Environment.TickCount - lastFoodTime) / 1000);
+         
+            int foodCountDownTimer = (foodDissapearTime / 1000 - (Environment.TickCount - lastFoodTime) / 1000);
             Console.SetCursorPosition(0, 0);
             Console.WriteLine("                                       ");
             Console.SetCursorPosition(0, 0);
@@ -391,13 +399,14 @@ namespace Snake
         /// </summary>
         public void DisplayStartScreen()
         {
-            Console.ForegroundColor = ConsoleColor.Cyan; //text color for text display
+            Console.ForegroundColor = ConsoleColor.Green; //text color for text display
             //display welcome message and highest score 
-            PrintLinesInCenter("WELCOME TO SNAKE GAME", "\n", "Highest Score", ReadPointsFromFile()); 
+            Console.SetCursorPosition(40,22);
+                Console.Write("Highest Score: " +  ReadPointsFromFile()); 
             //start screen stay for 3 seconds
-            Thread.Sleep(3000);
+            //Thread.Sleep(3000);
             //start screen clear before game start
-            Console.Clear();
+            //Console.Clear();
         }
 
         /// <summary>
@@ -483,6 +492,8 @@ namespace Snake
             int userPoints = 0;
             int finalScore = 0;
             int dieCountDownTime = 30; //Time limit per life in seconds
+            double sleepTime = 100;
+            int numofObstacles = 0;
             Console.SetWindowSize(100, 38);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             
@@ -490,13 +501,100 @@ namespace Snake
             Position[] directions = new Position[4];
 
             Program p = new Program();
-            
+
+            //ASCII code art comes here for Main Menu 
+            var arr = new[]
+            {
+                    @"      ::::::::  ::::    :::     :::     :::    ::: :::::::::: ",
+                    @"    :+:    :+: :+:+:   :+:   :+: :+:   :+:   :+:  :+:         ",
+                    @"   +:+        :+:+:+  +:+  +:+   +:+  +:+  +:+   +:+          ",
+                    @"  +#++:++#++ +#+ +:+ +#+ +#++:++#++: +#++:++    +#++:++#      ",
+                    @"        +#+ +#+  +#+#+# +#+     +#+ +#+  +#+   +#+            ",
+                    @"#+#    #+# #+#   #+#+# #+#     #+# #+#   #+#  #+#             ",
+                    @"########  ###    #### ###     ### ###    ### ##########       ",
+
+            };
+            Console.SetWindowSize(100, 38);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\n");
+            int x = 0;
+            foreach (string line in arr)
+            {
+
+                Console.SetCursorPosition(20, 3 + x);
+                Console.Write(line);
+                x++;
+            }
+
+            List<string> menuItems = new List<string>() {
+                "Easy",
+                "Medium",
+                "Hard"
+            };
+            //display start screen before background music and game start 
+            p.DisplayStartScreen();
+            Console.CursorVisible = false;
+            while (true)
+            {
+                string selectedMenuItem = drawMenu(menuItems);
+                if (selectedMenuItem == "Easy")
+                {
+                    //food disappear time to 20sec
+                    //Player life = 3
+                    //Game speed is 100
+                    //Obstacles normal 
+                    foodDissapearTime = 20000;
+                    life = 3;
+                    sleepTime = 100;
+                    numofObstacles = 1;
+                    if (Console.ReadKey().Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                    
+                }
+                else if (selectedMenuItem == "Medium")
+                {
+                    //food disappear time to 14sec
+                    //Player life = 2
+                    //Game speed is 90 millisec
+                    //Obstacles medium
+                    foodDissapearTime = 14000;
+                    life = 2;
+                    sleepTime = 90;
+                    numofObstacles = 2;
+                    if (Console.ReadKey().Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                }
+
+                else if (selectedMenuItem == "Hard")
+                {
+                    //food disappear time to 10sec
+                    //Player life = 1
+                    //Game speed is 60m
+                    //Obstacles hard
+                    foodDissapearTime = 10000;
+                    life = 1;
+                    sleepTime = 60;
+                    numofObstacles = 4;
+                    if (Console.ReadKey().Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                }
+            }
+            Console.Clear(); // Clear console here for mode 
+            //move the text for mode to center 
+            //put heading on top (SNAKE) 
+            //Highest score on main screen 
+
             //disbale the resize of console window by disabling maximize button and border dragging
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), maximizeButton, console);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), consoleBorder, console);
        
-            //display start screen before background music and game start 
-            p.DisplayStartScreen();
+          
           
             // Define direction with characteristic of index of array
             p.Direction(directions);
@@ -520,7 +618,7 @@ namespace Snake
 
                 //Do the initialization for sleepTime (Game's Speed), Snake's direction and food timing
                 //Limit the number of rows of text accessible in the console window
-                double sleepTime = 100;
+                //double sleepTime = 100;
                 int direction = right;
                 Random randomNumbersGenerator = new Random();
                 Console.BufferHeight = Console.WindowHeight;
@@ -548,7 +646,7 @@ namespace Snake
                 while (true)
                 {
                     //Print the food count down timer
-                    p.PrintFoodCountDownTimer(lastFoodTime);
+                    p.PrintFoodCountDownTimer(lastFoodTime,foodDissapearTime);
                     //Print the time left for the game
                     p.PrintDieTime(gameStartTime, dieCountDownTime);
                     //Print the accumulated score so far from the previous life game
@@ -615,7 +713,7 @@ namespace Snake
                         sleepTime--;
 
                         //Generate new obstacle
-                        p.GenerateNewObstacle(ref food, snakeElements, obstacles);
+                        p.GenerateNewObstacle(ref food, snakeElements, obstacles, numofObstacles);
 
                     }
                     else
@@ -648,6 +746,57 @@ namespace Snake
             }
 
             return;
+        }
+
+        private static string drawMenu(List<string> items)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (i == index)
+                {
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Console.SetCursorPosition(45, 17 + i);
+                    Console.WriteLine(items[i]);
+                 
+                }
+                else
+                {
+                    Console.SetCursorPosition(45, 17 + i);
+                    Console.WriteLine(items[i]);
+                }
+                Console.ResetColor();
+            }
+
+            ConsoleKeyInfo ckey = Console.ReadKey();
+
+            if (ckey.Key == ConsoleKey.DownArrow)
+            {
+                if (index == items.Count - 1)
+                {
+                    //index = 0; //Remove the comment to return to the topmost item in the list
+                }
+                else { index++; }
+            }
+            else if (ckey.Key == ConsoleKey.UpArrow)
+            {
+                if (index <= 0)
+                {
+                    //index = menuItem.Count - 1; //Remove the comment to return to the item in the bottom of the list
+                }
+                else { index--; }
+            }
+            else if (ckey.Key == ConsoleKey.Enter)
+            {
+                return items[index];
+            }
+            else
+            {
+                return "";
+            }
+
+            return "";
         }
     }
 }
