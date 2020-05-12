@@ -227,7 +227,7 @@ namespace Snake
                     return 1;
                 }
                 //Tell the player that he/she dies and delay for a while to let player ready for next game
-                PrintLinesInCenter("YOU DIED", "NOOB");
+                PrintLinesInCenter("SNAKE DIED", "TRY HARDER");
                 DieSoundEffect();//this sound effect will be played if the player died
                 Thread.Sleep(3000);// Pause for 3 seconds to let the player get ready for next game
                 finalScore += userPoints;
@@ -321,16 +321,15 @@ namespace Snake
         /// <param name="lastFoodTime"></param>
         public void PrintFoodCountDownTimer(int lastFoodTime, int foodDissapearTime)
         {
-         
-            int foodCountDownTimer = (foodDissapearTime / 1000 - (Environment.TickCount - lastFoodTime) / 1000);
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine("                                       ");
-            Console.SetCursorPosition(0, 0);
-            if(foodCountDownTimer==1)
-                Console.WriteLine("FoodCountDown: " + foodCountDownTimer + "Second");
-            else
-                Console.WriteLine("FoodCountDown: " + foodCountDownTimer + "Seconds");
 
+            int foodCountDownTimer = (foodDissapearTime / 1000 - (Environment.TickCount - lastFoodTime) / 1000);
+            Console.SetCursorPosition(1, 0);
+            Console.WriteLine("                               ");
+            Console.SetCursorPosition(1, 0);
+            if (foodCountDownTimer == 1)
+                Console.WriteLine("Food Count Down: " + foodCountDownTimer + " Second");
+            else
+                Console.WriteLine("Food Count Down: " + foodCountDownTimer + " Seconds");
         }
 
         /// <summary>
@@ -425,10 +424,10 @@ namespace Snake
             userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
             userPoints = Math.Max(userPoints, 0); //if (userPoints < 0) userPoints = 0;
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.SetCursorPosition(40, 0);
-            Console.WriteLine("                  ");
-            Console.SetCursorPosition(40, 0);
-            Console.WriteLine("Point: {0}", userPoints);
+            Console.SetCursorPosition(36, 0);
+            Console.WriteLine("                 ");
+            Console.SetCursorPosition(36, 0);
+            Console.WriteLine("Score: {0}", userPoints);
         }
         /// <summary>
         /// Print the life point
@@ -436,14 +435,14 @@ namespace Snake
         /// <param name="life"></param>
         public void PrintLifePoint(int life)
         {
-            if(life==0)
+            if (life == 0)
                 Console.ForegroundColor = ConsoleColor.Red;//Text color for 0 life point
             else
                 Console.ForegroundColor = ConsoleColor.Green;//Text color for life point more than 0
-            Console.SetCursorPosition(40, 1);
+            Console.SetCursorPosition(36, 1);
             Console.WriteLine("               ");
-            Console.SetCursorPosition(40, 1);
-            Console.WriteLine("Life: "+life);
+            Console.SetCursorPosition(36, 1);
+            Console.WriteLine("Life: " + life);
         }
         /// <summary>
         /// Print the time left for the game.
@@ -453,17 +452,21 @@ namespace Snake
         public void PrintDieTime(int gameStartTime,int dieCountDownTime)
         {
             //dieTime is the time left for the player if the player did not manage to finish the task in the given time
-            int dieTime = dieCountDownTime- (Environment.TickCount - gameStartTime) / 1000;
-            
+            int dieTime = dieCountDownTime - (Environment.TickCount - gameStartTime) / 1000;
+
             //Given Warning when 3 seconds left
-            if(dieTime<=3)
+            if (dieTime <= 3)
                 Console.ForegroundColor = ConsoleColor.DarkRed;
             else
                 Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(0, 1);
-            Console.WriteLine("               ");
-            Console.SetCursorPosition(0, 1);
-            Console.WriteLine("DieTime: " + dieTime);
+            Console.SetCursorPosition(1, 1);
+            Console.WriteLine("                                 ");
+            Console.SetCursorPosition(1, 1);
+            //Console.WriteLine("Die Time: " + dieTime);
+            if (dieTime == 1)
+                Console.WriteLine("Snake Die In: " + dieTime + " Second");
+            else
+                Console.WriteLine("Snake Die In: " + dieTime + " Seconds");
         }
         /// <summary>
         /// Display the accumulated points from previous life of game
@@ -472,9 +475,9 @@ namespace Snake
         public void PrintAccumulatedScore(int finalScore)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(70, 0);
-            Console.WriteLine("               ");
-            Console.SetCursorPosition(70, 0);
+            Console.SetCursorPosition(56, 0);
+            Console.WriteLine("                     ");
+            Console.SetCursorPosition(56, 0);
             Console.WriteLine("Accumulated Score: " + finalScore);
         }
 
@@ -508,6 +511,10 @@ namespace Snake
 
             Program p = new Program();
 
+            //disbale the resize of console window by disabling maximize button and border dragging
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), maximizeButton, console);
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), consoleBorder, console);
+
             //ASCII code art comes here for Main Menu 
             var arr = new[]
             {
@@ -520,14 +527,14 @@ namespace Snake
                     @"########  ###    #### ###     ### ###    ### ##########       ",
 
             };
-            Console.SetWindowSize(100, 38);
+            Console.SetWindowSize(80, 30);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n\n");
             int x = 0;
             foreach (string line in arr)
             {
 
-                Console.SetCursorPosition(20, 3 + x);
+                Console.SetCursorPosition(10, 3 + x);
                 Console.Write(line);
                 x++;
             }
@@ -595,11 +602,6 @@ namespace Snake
             //move the text for mode to center 
             //put heading on top (SNAKE) 
             //Highest score on main screen 
-
-            //disbale the resize of console window by disabling maximize button and border dragging
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), maximizeButton, console);
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), consoleBorder, console);
-       
           
           
             // Define direction with characteristic of index of array
@@ -763,13 +765,13 @@ namespace Snake
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    Console.SetCursorPosition(45, 17 + i);
+                    Console.SetCursorPosition(38, 15 + i);
                     Console.WriteLine(items[i]);
                  
                 }
                 else
                 {
-                    Console.SetCursorPosition(45, 17 + i);
+                    Console.SetCursorPosition(38, 15 + i);
                     Console.WriteLine(items[i]);
                 }
                 Console.ResetColor();
