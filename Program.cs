@@ -218,7 +218,7 @@ namespace Snake
                     //Display game over text and points
                     PrintLinesInCenter("Game Over!", "Your final score is: " + finalScore, "Enter your name: ");
                     userName = Console.ReadLine();
-                    SavePointsToFile(finalScore);//saving points to files
+                    SavePointsToFile(finalScore, userName, life);//saving points to files
                     Console.Clear();
                     PrintLinesInCenter("Press ENTER to exit the game!");
 
@@ -256,7 +256,7 @@ namespace Snake
                 //display game won text and user points
                 PrintLinesInCenter("You Win!", "Life Left: " + life, "Bonus Score: +" + life * 1000, "Your final score is: " + finalScore, "Enter your name: ");
                 userName = Console.ReadLine();
-                SavePointsToFile(finalScore);//saving points to files
+                SavePointsToFile(finalScore, userName, life);//saving points to files
                 Console.Clear();
                 PrintLinesInCenter("Press ENTER to exit the game!");
 
@@ -336,22 +336,28 @@ namespace Snake
         /// to get the user points and save the value to text file
         /// </summary>
         /// <param name="userPoints"></param>
-        public void SavePointsToFile(int userPoints)
+        public void SavePointsToFile(int userPoints, string userName, int life)
         {
             //declare the file path
             String filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
+            //var file = new StringBuilder();
+            var scoreCol = userPoints.ToString();
+            var nameCol = userName.ToString();
+            var lifeCol = life.ToString();
+            var newRecord = string.Format("{0}, {1}, {2}", scoreCol, nameCol, lifeCol);
+
             try
             {
                 //if there is no such text file in the folder, it will be created before saving the points into it
                 if (!File.Exists(filePath))
                 {
                     File.Create(filePath).Dispose();
-                    File.WriteAllText(filePath, userPoints.ToString() + Environment.NewLine);
+                    File.WriteAllText(filePath, newRecord + Environment.NewLine);
                 }
                 else
                 {
                     //if there are points exist in the text file, new points will be saved in next line
-                    File.AppendAllText(filePath, userPoints.ToString() + Environment.NewLine);
+                    File.AppendAllText(filePath, newRecord + Environment.NewLine);
                 }
             }
             catch (Exception exception)
@@ -363,7 +369,7 @@ namespace Snake
         /// <summary>
         /// Read the user points from text file
         /// </summary>
-        public string ReadPointsFromFile()
+       /* public string ReadPointsFromFile()
         {
             //declare file path 
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
@@ -374,7 +380,7 @@ namespace Snake
             // convert integer to string 
             string highestPoint = max.ToString();
             return highestPoint;
-        }
+        }*/
 
 
         /// <summary>
@@ -406,7 +412,7 @@ namespace Snake
             Console.ForegroundColor = ConsoleColor.Green; //text color for text display
             //display welcome message and highest score 
             Console.SetCursorPosition(40,22);
-                Console.Write("Highest Score: " +  ReadPointsFromFile()); 
+            //Console.Write("Highest Score: " +  ReadPointsFromFile()); 
             //start screen stay for 3 seconds
             //Thread.Sleep(3000);
             //start screen clear before game start
