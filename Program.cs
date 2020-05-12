@@ -198,7 +198,7 @@ namespace Snake
         /// <param name="negativePoints"></param>
         /// <param name="obstacles"></param>
         /// <returns></returns>
-        public int GameOverCheck(int dieCountDownTime, int gameStartTime, Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles,ref int userPoints,ref int finalScore, ref int life)
+        public int GameOverCheck(int dieCountDownTime, int gameStartTime, Queue<Position> snakeElements, Position snakeNewHead,int negativePoints, List<Position> obstacles,ref int userPoints,ref int finalScore, ref int life, string userName)
         {
             if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || ((Environment.TickCount-gameStartTime)/1000) > dieCountDownTime
                 || snakeNewHead.row >= Console.WindowHeight || snakeNewHead.col >= Console.WindowWidth || snakeNewHead.row < 2 || snakeNewHead.col < 0)
@@ -216,9 +216,11 @@ namespace Snake
                     Console.ForegroundColor = ConsoleColor.Red;//Text color for game over
 
                     //Display game over text and points
-                    PrintLinesInCenter("Game Over!", "Your final score is:" + finalScore, "Press enter to exit the game!");
-
+                    PrintLinesInCenter("Game Over!", "Your final score is: " + finalScore, "Enter your name: ");
+                    userName = Console.ReadLine();
                     SavePointsToFile(finalScore);//saving points to files
+                    Console.Clear();
+                    PrintLinesInCenter("Press ENTER to exit the game!");
 
                     //close only when enter key is pressed
                     while (Console.ReadKey().Key != ConsoleKey.Enter) { }
@@ -240,7 +242,7 @@ namespace Snake
         /// <param name="snakeElements"></param>
         /// <param name="negativePoints"></param>
         /// <returns></returns>
-        public int WinningCheck(Queue<Position> snakeElements, int negativePoints, ref int userPoints, ref int finalScore, int life)
+        public int WinningCheck(Queue<Position> snakeElements, int negativePoints, ref int userPoints, ref int finalScore, int life, string userName)
         {
             // initially snake elements has 4, increment 1 by eating 1 food, so eat 3 food to get 7 snake elements 
             if (snakeElements.Count == 7)
@@ -252,8 +254,11 @@ namespace Snake
                 finalScore = finalScore + userPoints +life*1000;
 
                 //display game won text and user points
-                PrintLinesInCenter("You Win!","Life Point Left:"+life,"Bonus Score: +"+ life*1000, "Your final score is:" + finalScore, "Press enter to exit the game!");
+                PrintLinesInCenter("You Win!", "Life Left: " + life, "Bonus Score: +" + life * 1000, "Your final score is: " + finalScore, "Enter your name: ");
+                userName = Console.ReadLine();
                 SavePointsToFile(finalScore);//saving points to files
+                Console.Clear();
+                PrintLinesInCenter("Press ENTER to exit the game!");
 
                 //close only when enter key is pressed
                 while (Console.ReadKey().Key != ConsoleKey.Enter) { }
@@ -494,6 +499,7 @@ namespace Snake
             int dieCountDownTime = 30; //Time limit per life in seconds
             double sleepTime = 100;
             int numofObstacles = 0;
+            string userName = "-";
             Console.SetWindowSize(100, 38);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             
@@ -676,13 +682,13 @@ namespace Snake
                     p.PrintUserPoint(ref userPoints, snakeElements, negativePoints);
 
                     //Check for GameOver Criteria including the Final Game Over and Die Condition
-                    int gameOver = p.GameOverCheck(dieCountDownTime,gameStartTime, snakeElements, snakeNewHead, negativePoints, obstacles,ref userPoints,ref finalScore, ref life);
+                    int gameOver = p.GameOverCheck(dieCountDownTime,gameStartTime, snakeElements, snakeNewHead, negativePoints, obstacles,ref userPoints,ref finalScore, ref life, userName);
                     if (gameOver == 1)
                         break;
         
 
                     //Check for Winning Criteria
-                    int winning = p.WinningCheck(snakeElements, negativePoints,ref userPoints,ref finalScore ,life);
+                    int winning = p.WinningCheck(snakeElements, negativePoints,ref userPoints,ref finalScore ,life, userName);
                     if (winning == 1)
                         return;
 
