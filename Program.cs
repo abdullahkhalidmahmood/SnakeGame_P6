@@ -344,7 +344,7 @@ namespace Snake
             var scoreCol = userPoints.ToString();
             var nameCol = userName.ToString();
             var lifeCol = life.ToString();
-            var newRecord = string.Format("{0}, {1}, {2}", scoreCol, nameCol, lifeCol);
+            var newRecord = string.Format("{0}, {1}, {2}", scoreCol, lifeCol, nameCol);
 
             try
             {
@@ -369,18 +369,30 @@ namespace Snake
         /// <summary>
         /// Read the user points from text file
         /// </summary>
-       /* public string ReadPointsFromFile()
+        public string ReadPointsFromFile()
         {
             //declare file path 
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "userPoints.txt");
             //read all the contents in text file and store in an array
             string[] scoreBoard = File.ReadAllLines(filePath);
+           
             //find the highest points from the array
-            int max = scoreBoard.Select(int.Parse).Max();
+            var max = (from line in scoreBoard
+                       let score = int.Parse(line.Split(',').First())
+                       orderby score descending
+                       select score).First();
+            var name = (from line in scoreBoard
+                        let score = int.Parse(line.Split(',').First())
+                        let userMax = line.Split(',').Last()
+                        orderby score descending
+                        select userMax).First();
+            
             // convert integer to string 
             string highestPoint = max.ToString();
-            return highestPoint;
-        }*/
+            string userwithHighestScore = name.ToString();
+            string abc = userwithHighestScore + "\t\t" + highestPoint;
+            return abc;
+        }
 
 
         /// <summary>
@@ -411,8 +423,12 @@ namespace Snake
         {
             Console.ForegroundColor = ConsoleColor.Green; //text color for text display
             //display welcome message and highest score 
-            Console.SetCursorPosition(40,22);
-            //Console.Write("Highest Score: " +  ReadPointsFromFile()); 
+            Console.SetCursorPosition(34, 20);
+            Console.Write("Highest Score");
+            Console.SetCursorPosition(34, 21);
+            Console.Write("-------------");
+            Console.SetCursorPosition(32, 23);
+            Console.Write(ReadPointsFromFile());
             //start screen stay for 3 seconds
             //Thread.Sleep(3000);
             //start screen clear before game start
