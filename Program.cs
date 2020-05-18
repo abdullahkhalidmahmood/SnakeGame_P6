@@ -169,7 +169,7 @@ namespace Snake
             //User key pressed statement: depends on which direction the user want to go to get food or avoid obstacle
             if (Console.KeyAvailable)
             {
-                ConsoleKeyInfo userInput = Console.ReadKey();
+                ConsoleKeyInfo userInput = Console.ReadKey(true); // Disable the display of pressed key
                 if (userInput.Key == ConsoleKey.LeftArrow)
                 {
                     if (direction != right) direction = left;
