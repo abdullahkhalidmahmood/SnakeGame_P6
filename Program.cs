@@ -242,7 +242,7 @@ namespace Snake
         /// <param name="snakeElements"></param>
         /// <param name="negativePoints"></param>
         /// <returns></returns>
-        public int WinningCheck(Queue<Position> snakeElements, int negativePoints, ref int userPoints, ref int finalScore, int life, string userName)
+        public int WinningCheck(Queue<Position> snakeElements, int negativePoints, ref int userPoints, ref int finalScore, int life, string userName,int lifeBonusPoint)
         {
             // initially snake elements has 4, increment 1 by eating 1 food, so eat 3 food to get 7 snake elements 
             if (snakeElements.Count == 7)
@@ -251,10 +251,10 @@ namespace Snake
                 Console.SetCursorPosition(0, 0);
                 Console.ForegroundColor = ConsoleColor.Green;//Text color for game won
 
-                finalScore = finalScore + userPoints +life*1000;
+                finalScore = finalScore + userPoints +life* lifeBonusPoint;
 
                 //display game won text and user points
-                PrintLinesInCenter("You Win!", "Life Left: " + life, "Bonus Score: +" + life * 1000, "Your final score is: " + finalScore, "Enter your name: ");
+                PrintLinesInCenter("You Win!", "Life Left: " + life, "Bonus Score: +" + life * lifeBonusPoint, "Your final score is: " + finalScore, "Enter your name: ");
                 userName = Console.ReadLine();
                 SavePointsToFile(finalScore, userName, life);//saving points to files
                 Console.Clear();
@@ -525,6 +525,7 @@ namespace Snake
             double sleepTime = 100;
             int numofObstacles = 0;
             string userName = "-";
+            int lifeBonusPoint = 0; //Life bonus point is bonus point added in winning condition with per life left
             Console.SetWindowSize(80, 30);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             
@@ -580,6 +581,7 @@ namespace Snake
                     //Obstacles normal 
                     foodDissapearTime = 20000;
                     life = 3;
+                    lifeBonusPoint = 200;
                     sleepTime = 100;
                     numofObstacles = 1;
                     if (Console.ReadKey().Key == ConsoleKey.Enter)
@@ -596,6 +598,7 @@ namespace Snake
                     //Obstacles medium
                     foodDissapearTime = 14000;
                     life = 2;
+                    lifeBonusPoint = 400;
                     sleepTime = 90;
                     numofObstacles = 2;
                     if (Console.ReadKey().Key == ConsoleKey.Enter)
@@ -612,6 +615,7 @@ namespace Snake
                     //Obstacles hard
                     foodDissapearTime = 10000;
                     life = 1;
+                    lifeBonusPoint = 1000;
                     sleepTime = 60;
                     numofObstacles = 4;
                     if (Console.ReadKey().Key == ConsoleKey.Enter)
@@ -712,7 +716,7 @@ namespace Snake
         
 
                     //Check for Winning Criteria
-                    int winning = p.WinningCheck(snakeElements, negativePoints,ref userPoints,ref finalScore ,life, userName);
+                    int winning = p.WinningCheck(snakeElements, negativePoints,ref userPoints,ref finalScore ,life, userName,lifeBonusPoint);
                     if (winning == 1)
                         return;
 
