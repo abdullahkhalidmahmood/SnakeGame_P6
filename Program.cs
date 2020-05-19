@@ -107,7 +107,8 @@ namespace Snake
         public void DrawObstacle()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write("=");
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.Write("▒");
         }
 
         /// <summary>
