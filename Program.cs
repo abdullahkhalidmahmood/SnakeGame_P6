@@ -96,8 +96,9 @@ namespace Snake
         /// </summary>
         public void DrawFood()
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("@");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.Write("♥♥");
         }
         
         /// <summary>
