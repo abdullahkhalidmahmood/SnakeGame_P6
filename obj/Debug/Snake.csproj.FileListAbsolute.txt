@@ -63,3 +63,5 @@ C:\Users\60173\Desktop\SnakeGame_P6\obj\Debug\Snake.exe
 C:\Users\60173\Desktop\SnakeGame_P6\obj\Debug\Snake.pdb
 C:\Users\60173\Desktop\SnakeGame_P6\bin\Debug\Colorful.Console.dll
 C:\Users\60173\Desktop\SnakeGame_P6\obj\Debug\Snake.csproj.CopyComplete
+C:\Users\User\SnakeGame_P6\bin\Debug\Colorful.Console.dll
+C:\Users\User\SnakeGame_P6\obj\Debug\Snake.csproj.CopyComplete

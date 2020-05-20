@@ -220,7 +220,10 @@ namespace Snake
                     Console.ForegroundColor = Color.Red;//Text color for game over
 
                     //Display game over text and points
-                    PrintLinesInCenter("Game Over!", "Your final score is: " + finalScore, "Enter your name: ");
+                    PrintLinesInCenter("Game Over!", "Your final score is: " + finalScore);
+                    Console.SetCursorPosition(32, 17);
+                    Console.ForegroundColor = Color.LightGreen;
+                    Console.Write("Enter your name: ");
                     userName = Console.ReadLine();
                     SavePointsToFile(finalScore, userName, life);//saving points to files
                     Console.Clear();
@@ -258,7 +261,10 @@ namespace Snake
                 finalScore = finalScore + userPoints + life * lifeBonusPoint;
 
                 //display game won text and user points
-                PrintLinesInCenter("You Win!", "Life Left: " + life, "Bonus Score: +" + life * lifeBonusPoint, "Your final score is: " + finalScore, "Enter your name: ");
+                PrintLinesInCenter("You Win!", "Life Left: " + life, "Bonus Score: +" + life * lifeBonusPoint, "Your final score is: " + finalScore);
+                Console.SetCursorPosition(32, 19);
+                Console.ForegroundColor = Color.LightGreen;
+                Console.Write("Enter your name: ");
                 userName = Console.ReadLine();
                 SavePointsToFile(finalScore, userName, life);//saving points to files
                 Console.Clear();
@@ -427,11 +433,11 @@ namespace Snake
         {
             Console.ForegroundColor = Color.Green; //text color for text display
             //display welcome message and highest score 
-            Console.SetCursorPosition(34, 20);
+            Console.SetCursorPosition(34, 19);
             Console.Write("Highest Score");
-            Console.SetCursorPosition(34, 21);
+            Console.SetCursorPosition(34, 20);
             Console.Write("-------------");
-            Console.SetCursorPosition(32, 23);
+            Console.SetCursorPosition(31, 22);
             Console.Write(ReadPointsFromFile());
             //start screen stay for 3 seconds
             //Thread.Sleep(3000);
@@ -581,7 +587,7 @@ namespace Snake
             }
 
             //Console snake size set with BufferArea using new library
-            Console.MoveBufferArea(0, 0, Console.BufferWidth, Console.BufferHeight, 22, 8);
+            Console.MoveBufferArea(0, 0, Console.BufferWidth, Console.BufferHeight, 22, 5);
 
             List<string> menuItems = new List<string>() {
                 "Easy",
@@ -812,13 +818,13 @@ namespace Snake
                     Console.BackgroundColor = Color.Green;
                     Console.ForegroundColor = Color.White;
 
-                    Console.SetCursorPosition(38, 15 + i);
+                    Console.SetCursorPosition(38, 13 + i);
                     Console.WriteLine(items[i]);
 
                 }
                 else
                 {
-                    Console.SetCursorPosition(38, 15 + i);
+                    Console.SetCursorPosition(38, 13 + i);
                     Console.WriteLine(items[i]);
                 }
                 Console.ResetColor();
