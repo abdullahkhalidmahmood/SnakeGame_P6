@@ -762,8 +762,17 @@ namespace Snake
 
 
                     // food will be positioned randomly until they are not at the same row & column as snake head
-                    if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
+                    if ((snakeNewHead.col == food.col && snakeNewHead.row == food.row) || (snakeNewHead.col == food.col + 1 && snakeNewHead.row == food.row))
                     {
+                        if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
+                        {
+                            Console.SetCursorPosition(food.col + 1, food.row);
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(food.col, food.row);
+                        }
+                        Console.Write(" ");
                         Console.Beep(600, 100);// Make a sound effect when food was eaten.
                         p.GenerateFood(ref food, snakeElements, obstacles);
 
