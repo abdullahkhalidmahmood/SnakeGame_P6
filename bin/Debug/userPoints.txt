@@ -1,23 +1,7 @@
 123, 0, Yiet
-2059, 2, Saki
-1094, 1, Adam
-0, 0, iunui
 36, 0, ubuibi
-3157, 3, Lucy
-783, 3, 
-795, 3, 
-750, 3, 
-578, 1, 
-998, 2, 
-1131, 1, 
-0, 0, zxczxcz
 528, 2, Sophia
-734, 3, Sharonne
-1, 0, 
-0, 0, 
-0, 0, 
-0, 0, 
+734, 3, Sharonne 
 763, 3, Lusyphia
-0, 0, Testing
 171, 0, Testing
 772, 3, Alex

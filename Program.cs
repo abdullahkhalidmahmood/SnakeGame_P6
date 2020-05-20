@@ -437,7 +437,7 @@ namespace Snake
             Console.Write("Highest Score");
             Console.SetCursorPosition(34, 20);
             Console.Write("-------------");
-            Console.SetCursorPosition(31, 22);
+            Console.SetCursorPosition(30, 22);
             Console.Write(ReadPointsFromFile());
             //start screen stay for 3 seconds
             //Thread.Sleep(3000);
