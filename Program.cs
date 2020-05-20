@@ -319,7 +319,7 @@ namespace Snake
                 }
                 //if snake or obstacles are already at certain position, new obstacle will not be drawn there
                 //new obstacle will not be drawn at the same row & column of food
-                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row == obstacle.row && food.col == obstacle.col));
+                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row == obstacle.row && food.col == obstacle.col) || (food.row == obstacle.row && food.col + 1 == obstacle.col));
                 obstacles.Add(obstacle);
                 Console.SetCursorPosition(obstacle.col, obstacle.row);
                 DrawObstacle();
