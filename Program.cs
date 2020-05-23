@@ -249,10 +249,10 @@ namespace Snake
         /// <param name="snakeElements"></param>
         /// <param name="negativePoints"></param>
         /// <returns></returns>
-        public int WinningCheck(Queue<Position> snakeElements, int negativePoints, ref int userPoints, ref int finalScore, int life, string userName, int lifeBonusPoint)
+        public int WinningCheck(int numberFoodEaten, int negativePoints, ref int userPoints, ref int finalScore, int life, string userName, int lifeBonusPoint)
         {
-            // initially snake elements has 4, increment 1 by eating 1 food, so eat 3 food to get 7 snake elements 
-            if (snakeElements.Count == 7)
+            // If the player eat 15 food then he/she will win the game
+            if (numberFoodEaten == 15)
             {
                 WinSoundEffect(); //thissound effect plays when game won  
                 Console.SetCursorPosition(0, 0);
@@ -542,7 +542,7 @@ namespace Snake
             int life = 3;
             int userPoints = 0;
             int finalScore = 0;
-            int dieCountDownTime = 30; //Time limit per life in seconds
+            int dieCountDownTime = 150; //Time limit per life in seconds
             double sleepTime = 100;
             int numofObstacles = 0;
             string userName = "-";
@@ -758,7 +758,7 @@ namespace Snake
 
 
                     //Check for Winning Criteria
-                    int winning = p.WinningCheck(snakeElements, negativePoints, ref userPoints, ref finalScore, life, userName, lifeBonusPoint);
+                    int winning = p.WinningCheck(numberFoodEaten, negativePoints, ref userPoints, ref finalScore, life, userName, lifeBonusPoint);
                     if (winning == 1)
                         return;
 

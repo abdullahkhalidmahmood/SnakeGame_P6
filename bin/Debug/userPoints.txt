@@ -6,3 +6,6 @@
 171, 0, Testing
 772, 3, Alex
 559, 2, Yeat
+842, 3, s
+1128, 1, Saitama
+1606, 3, AA
