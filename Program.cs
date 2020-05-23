@@ -512,7 +512,18 @@ namespace Snake
             Console.SetCursorPosition(56, 0);
             Console.WriteLine("Accumulated Score: " + finalScore);
         }
-
+        /// <summary>
+        /// Print the number of food eaten by the player.
+        /// </summary>
+        /// <param name="numberFoodEaten"></param>
+        public void PrintNumberFoodEaten(int numberFoodEaten)
+        {
+            Console.ForegroundColor = Color.Green;
+            Console.SetCursorPosition(56, 1);
+            Console.WriteLine("                     ");
+            Console.SetCursorPosition(56, 1);
+            Console.WriteLine("Food Eaten: " + numberFoodEaten);
+        }
         /// <summary>
         /// Main starts here
         /// </summary>
@@ -536,6 +547,7 @@ namespace Snake
             int numofObstacles = 0;
             string userName = "-";
             int lifeBonusPoint = 0; //Life bonus point is bonus point added in winning condition with per life left
+            
             Console.SetWindowSize(80, 30);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 
@@ -667,6 +679,7 @@ namespace Snake
 
                 //Play background music
                 p.BackgroundMusic();
+                int numberFoodEaten = 0;//Initialised number of food eaten by the snake to be 0
                 int negativePoints = 0;
                 //Clear the console everytime start the game in new life
                 Console.Clear();
@@ -712,6 +725,8 @@ namespace Snake
                     p.PrintDieTime(gameStartTime, dieCountDownTime);
                     //Print the accumulated score so far from the previous life game
                     p.PrintAccumulatedScore(finalScore);
+                    //Print the number of food eaten by the player
+                    p.PrintNumberFoodEaten(numberFoodEaten);
 
                     //negative points is initialized as 0 at the beginning of the game. As the player reaches out for food
                     //negative points increment depending how far the food is
@@ -774,6 +789,7 @@ namespace Snake
                         }
                         Console.Write(" ");
                         Console.Beep(600, 100);// Make a sound effect when food was eaten.
+                        numberFoodEaten++; //Increase the number count by 1 each time the snake eat the food
                         p.GenerateFood(ref food, snakeElements, obstacles);
 
 
