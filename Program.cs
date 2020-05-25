@@ -104,6 +104,16 @@ namespace Snake
         }
 
         /// <summary>
+        ///  function to draw power-up item
+        /// </summary>
+        public void DrawPowerUp()
+        {
+            Console.ForegroundColor = Color.LightGreen;
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.Write("♣♣");
+        }
+
+        /// <summary>
         /// function to draw obstacle in cyan "="
         /// </summary>
         public void DrawObstacle()
@@ -118,8 +128,8 @@ namespace Snake
         /// </summary>
         public void DrawSnakeBody()
         {
-            Console.ForegroundColor = Color.DarkGray;
-            Console.Write("*");
+            Console.ForegroundColor = Color.Gray;
+            Console.Write("▪");
         }
 
         /// <summary>
@@ -331,7 +341,7 @@ namespace Snake
         /// <param name="lastFoodTime"></param>
         public void PrintFoodCountDownTimer(int lastFoodTime, int foodDissapearTime)
         {
-
+            Console.ForegroundColor = Color.Green;
             int foodCountDownTimer = (foodDissapearTime / 1000 - (Environment.TickCount - lastFoodTime) / 1000);
             Console.SetCursorPosition(1, 0);
             Console.WriteLine("                               ");
@@ -786,10 +796,10 @@ namespace Snake
                     snakeElements.Enqueue(snakeNewHead);
                     Console.SetCursorPosition(snakeNewHead.col, snakeNewHead.row);
                     Console.ForegroundColor = Color.Gray;
-                    if (direction == right) Console.Write(">"); //Snake head when going right
-                    if (direction == left) Console.Write("<");//Snake head when going left
-                    if (direction == up) Console.Write("^");//Snake head when going up
-                    if (direction == down) Console.Write("v");//Snake head when going down
+                    if (direction == right) Console.Write("►"); //Snake head when going right
+                    if (direction == left) Console.Write("◄");//Snake head when going left
+                    if (direction == up) Console.Write("▲");//Snake head when going up
+                    if (direction == down) Console.Write("▼");//Snake head when going down
 
 
                     // food will be positioned randomly until they are not at the same row & column as snake head
