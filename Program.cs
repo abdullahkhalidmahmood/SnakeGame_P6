@@ -547,7 +547,7 @@ namespace Snake
             int numofObstacles = 0;
             string userName = "-";
             int lifeBonusPoint = 0; //Life bonus point is bonus point added in winning condition with per life left
-            
+            string selectedMode;
             Console.SetWindowSize(80, 30);//reducing screen size 
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 
@@ -601,11 +601,46 @@ namespace Snake
             //Console snake size set with BufferArea using new library
             Console.MoveBufferArea(0, 0, Console.BufferWidth, Console.BufferHeight, 22, 5);
 
+            //Game mode menu for bound and unbound 
+            List<string> modeMenu = new List<string>() {
+                "Bound Mode",
+                "Unbound Mode"
+            };
+
+
+            while (true)
+            {
+                selectedMode = drawMenu(modeMenu);
+                if (selectedMode == "Bound Mode")
+                {
+                    if (Console.ReadKey().Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                }
+                else if (selectedMode == "Unbound Mode")
+                {
+                    if (Console.ReadKey().Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                }
+            }
+            Console.Clear();
+
+            //Game level snake ASCII art for screen 
+            Console.WriteAscii("SNAKE", Color.FromArgb(DA, V, ID));
+
+            //Console snake size set with BufferArea using new library
+            Console.MoveBufferArea(0, 0, Console.BufferWidth, Console.BufferHeight, 22, 5);
+
+            // game menu items for level of intensity 
             List<string> menuItems = new List<string>() {
                 "Easy",
                 "Medium",
                 "Hard"
             };
+
             //display start screen before background music and game start 
             p.DisplayStartScreen();
             Console.CursorVisible = false;
@@ -743,10 +778,16 @@ namespace Snake
                     Position snakeNewHead = new Position(snakeHead.row + nextDirection.row,
                         snakeHead.col + nextDirection.col);
 
-                    /*                if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
-                                    if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;
-                                    if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
-                                    if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;*/
+                    // Unbound mode selected then utilise this function 
+                    if (selectedMode == "Unbound Mode")
+                    {
+                        if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
+                        if (snakeNewHead.row < 2) snakeNewHead.row = Console.WindowHeight - 1;
+                        if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 2;
+                        if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
+                    }
+
+
 
                     //print realtime user points
                     p.PrintUserPoint(ref userPoints, snakeElements, negativePoints);
