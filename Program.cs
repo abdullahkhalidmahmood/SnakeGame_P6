@@ -560,32 +560,7 @@ namespace Snake
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), maximizeButton, console);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), consoleBorder, console);
 
-            //ASCII code art comes here for Main Menu 
-            /*var arr = new[]
-            {
-                    @"      ::::::::  ::::    :::     :::     :::    ::: :::::::::: ",
-                    @"    :+:    :+: :+:+:   :+:   :+: :+:   :+:   :+:  :+:         ",
-                    @"   +:+        :+:+:+  +:+  +:+   +:+  +:+  +:+   +:+          ",
-                    @"  +#++:++#++ +#+ +:+ +#+ +#++:++#++: +#++:++    +#++:++#      ",
-                    @"        +#+ +#+  +#+#+# +#+     +#+ +#+  +#+   +#+            ",
-                    @"#+#    #+# #+#   #+#+# #+#     #+# #+#   #+#  #+#             ",
-                    @"########  ###    #### ###     ### ###    ### ##########       ",
-
-            };
-            Console.SetWindowSize(80, 30);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\n");
-            int x = 0;
-            foreach (string line in arr)
-            {
-
-                Console.SetCursorPosition(10, 3 + x);
-                Console.Write(line);
-                x++;
-            }*/
-
-
-            //Console.CursorVisible = false;
+           
 
             //Main menu snake console ASCII ART is here
             int DA = 0;
@@ -610,7 +585,7 @@ namespace Snake
 
             while (true)
             {
-                selectedMode = drawMenu(modeMenu);
+                selectedMode = drawModeMenu(modeMenu);
                 if (selectedMode == "Bound Mode")
                 {
                     if (Console.ReadKey().Key == ConsoleKey.Enter)
@@ -926,6 +901,56 @@ namespace Snake
             return "";
         }
 
+        private static string drawModeMenu(List<string> items)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (i == index)
+                {
+                    Console.BackgroundColor = Color.Green;
+                    Console.ForegroundColor = Color.White;
+
+                    Console.SetCursorPosition(32, 13 + i);
+                    Console.WriteLine(items[i]);
+
+                }
+                else
+                {
+                    Console.SetCursorPosition(32, 13 + i);
+                    Console.WriteLine(items[i]);
+                }
+                Console.ResetColor();
+            }
+
+            ConsoleKeyInfo ckey = Console.ReadKey();
+
+            if (ckey.Key == ConsoleKey.DownArrow)
+            {
+                if (index == items.Count - 1)
+                {
+                    //index = 0; //Remove the comment to return to the topmost item in the list
+                }
+                else { index++; }
+            }
+            else if (ckey.Key == ConsoleKey.UpArrow)
+            {
+                if (index <= 0)
+                {
+                    //index = menuItem.Count - 1; //Remove the comment to return to the item in the bottom of the list
+                }
+                else { index--; }
+            }
+            else if (ckey.Key == ConsoleKey.Enter)
+            {
+                return items[index];
+            }
+            else
+            {
+                return "";
+            }
+
+            return "";
+        }
 
     }
 }
