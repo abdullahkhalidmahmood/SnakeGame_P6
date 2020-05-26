@@ -110,7 +110,7 @@ namespace Snake
         {
             Console.ForegroundColor = Color.LightGreen;
             Console.OutputEncoding = Encoding.Unicode;
-            Console.Write("♣♣");
+            Console.Write("♣");
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Snake
         /// <param name="food"></param>
         /// <param name="snakeElements"></param>
         /// <param name="obstacles"></param>
-        public void GenerateFood(ref Position food, Queue<Position> snakeElements, List<Position> obstacles)
+        public void GenerateFood(ref Position food, Queue<Position> snakeElements, List<Position> obstacles, Position powerUp)
         {
             Random randomNumbersGenerator = new Random();
             do
@@ -303,9 +303,23 @@ namespace Snake
             }
             //a loop is created - while the program contains food and the obstacle is not hit 
             //put food on different position which is "@"
-            while (snakeElements.Contains(food) || obstacles.Contains(food));
+            while (snakeElements.Contains(food) || obstacles.Contains(food) || (powerUp.col == food.col && powerUp.row == food.row));
             Console.SetCursorPosition(food.col, food.row);
             DrawFood();
+        }
+
+        public void GeneratePowerUp(ref Position powerUp, Position food, Queue<Position> snakeElements, List<Position> obstacles)
+        {
+            Random randomNumbersGenerator = new Random();
+            do
+            {
+                powerUp = new Position(randomNumbersGenerator.Next(2, Console.WindowHeight), //Food generated from 3rd row to console height
+                    randomNumbersGenerator.Next(0, Console.WindowWidth)); //Food generate within console width
+            }
+            
+            while (snakeElements.Contains(powerUp) || obstacles.Contains(powerUp) || (food.col == powerUp.col && food.row == powerUp.row));
+            Console.SetCursorPosition(powerUp.col, powerUp.row);
+            DrawPowerUp();
         }
 
         /// <summary>
@@ -314,7 +328,7 @@ namespace Snake
         /// <param name="food"></param>
         /// <param name="snakeElements"></param>
         /// <param name="obstacles"></param>
-        public void GenerateNewObstacle(ref Position food, Queue<Position> snakeElements, List<Position> obstacles, int numofObstacles)
+        public void GenerateNewObstacle(ref Position food, Queue<Position> snakeElements, List<Position> obstacles, int numofObstacles, Position powerUp)
         {
             Random randomNumbersGenerator = new Random();
 
@@ -329,7 +343,7 @@ namespace Snake
                 }
                 //if snake or obstacles are already at certain position, new obstacle will not be drawn there
                 //new obstacle will not be drawn at the same row & column of food
-                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row == obstacle.row && food.col == obstacle.col) || (food.row == obstacle.row && food.col + 1 == obstacle.col));
+                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row == obstacle.row && food.col == obstacle.col) || (food.row == obstacle.row && food.col + 1 == obstacle.col) || (powerUp.row == obstacle.row && powerUp.col == obstacle.col));
                 obstacles.Add(obstacle);
                 Console.SetCursorPosition(obstacle.col, obstacle.row);
                 DrawObstacle();
@@ -461,9 +475,9 @@ namespace Snake
         /// <param name="userPoints"></param>
         /// <param name="snakeElements"></param>
         /// <param name="negativePoints"></param>
-        public void PrintUserPoint(ref int userPoints, Queue<Position> snakeElements, int negativePoints)
+        public void PrintUserPoint(ref int userPoints, Queue<Position> snakeElements, int negativePoints, int powerUpEaten)
         {
-            userPoints = (snakeElements.Count - 4) * 100 - negativePoints;//points calculated for player
+            userPoints = (snakeElements.Count - 4) * 100 - negativePoints + (powerUpEaten*200);//points calculated for player
             userPoints = Math.Max(userPoints, 0); //if (userPoints < 0) userPoints = 0;
             Console.ForegroundColor = Color.Magenta;
             Console.SetCursorPosition(36, 0);
@@ -549,6 +563,12 @@ namespace Snake
             byte up = 3;
             int lastFoodTime = 0;
             int foodDissapearTime = 10000; //food dissappears after 10 second 
+            int powerUpDissapearTime = 5000;
+            int lastPowerUpDissapearTime = 0;
+            int powerUpAppearTime = 2000;
+            int lastPowerUpAppearTime = 0;
+            
+
             int life = 3;
             int userPoints = 0;
             int finalScore = 0;
@@ -696,7 +716,9 @@ namespace Snake
             {
                 //Set the game start time everytime the player start a new game with new life
                 int gameStartTime = Environment.TickCount;
-
+                int powerUpEaten = 0;
+                int appearFlag = 1;
+                lastPowerUpAppearTime = Environment.TickCount;
                 //Play background music
                 p.BackgroundMusic();
                 int numberFoodEaten = 0;//Initialised number of food eaten by the snake to be 0
@@ -709,6 +731,10 @@ namespace Snake
                 // Initialised the obstacles location at the starting of the game
                 List<Position> obstacles = new List<Position>();
                 p.InitialRandomObstacles(obstacles);
+
+                Position powerUp = new Position();
+                powerUp.col = 200;
+                powerUp.row = 100;
 
                 //Do the initialization for sleepTime (Game's Speed), Snake's direction and food timing
                 //Limit the number of rows of text accessible in the console window
@@ -728,7 +754,7 @@ namespace Snake
 
                 //To position food randomly when the program runs first time
                 Position food = new Position();
-                p.GenerateFood(ref food, snakeElements, obstacles);
+                p.GenerateFood(ref food, snakeElements, obstacles, powerUp);
 
                 //while the game is running position snake on terminal with shape "*"
                 foreach (Position position in snakeElements)
@@ -775,7 +801,7 @@ namespace Snake
 
 
                     //print realtime user points
-                    p.PrintUserPoint(ref userPoints, snakeElements, negativePoints);
+                    p.PrintUserPoint(ref userPoints, snakeElements, negativePoints, powerUpEaten);
 
                     //Check for GameOver Criteria including the Final Game Over and Die Condition
                     int gameOver = p.GameOverCheck(dieCountDownTime, gameStartTime, snakeElements, snakeNewHead, negativePoints, obstacles, ref userPoints, ref finalScore, ref life, userName);
@@ -801,6 +827,34 @@ namespace Snake
                     if (direction == up) Console.Write("▲");//Snake head when going up
                     if (direction == down) Console.Write("▼");//Snake head when going down
 
+                    
+
+                    if ((Environment.TickCount - lastPowerUpAppearTime) > powerUpAppearTime && appearFlag == 1) 
+                    {
+                        p.GeneratePowerUp(ref powerUp, food, snakeElements, obstacles);
+                        lastPowerUpDissapearTime = Environment.TickCount;
+                        appearFlag = 0;
+                    }
+                    if ((Environment.TickCount -lastPowerUpDissapearTime)> powerUpDissapearTime && appearFlag == 0)
+                    {
+                        appearFlag = 1;
+                        Console.SetCursorPosition(powerUp.col, powerUp.row);
+                        Console.Write(" ");
+                        powerUp.col = 0;
+                        powerUp.row = 0;
+                        lastPowerUpAppearTime = Environment.TickCount;
+                    }
+                    if (snakeNewHead.col == powerUp.col && snakeNewHead.row == powerUp.row)
+                    {
+                        powerUpEaten++;
+                        Console.Beep(600, 100);// Make a sound effect when food was eaten.
+                        numberFoodEaten++;
+                        appearFlag = 1;
+                        powerUp.col = 0;
+                        powerUp.row = 0;
+                        lastPowerUpAppearTime = Environment.TickCount;
+                    }
+
 
                     // food will be positioned randomly until they are not at the same row & column as snake head
                     if ((snakeNewHead.col == food.col && snakeNewHead.row == food.row) || (snakeNewHead.col == food.col + 1 && snakeNewHead.row == food.row))
@@ -816,7 +870,10 @@ namespace Snake
                         Console.Write(" ");
                         Console.Beep(600, 100);// Make a sound effect when food was eaten.
                         numberFoodEaten++; //Increase the number count by 1 each time the snake eat the food
-                        p.GenerateFood(ref food, snakeElements, obstacles);
+                        
+                        
+                        p.GenerateFood(ref food, snakeElements, obstacles,powerUp);
+                       
 
 
                         //when the snake eat the food, the system tickcount will be set as lastFoodTime
@@ -825,7 +882,7 @@ namespace Snake
                         sleepTime--;
 
                         //Generate new obstacle
-                        p.GenerateNewObstacle(ref food, snakeElements, obstacles, numofObstacles);
+                        p.GenerateNewObstacle(ref food, snakeElements, obstacles, numofObstacles,powerUp);
 
                     }
                     else
@@ -836,16 +893,17 @@ namespace Snake
                         Console.Write(" ");
                     }
 
+
                     //if snake did not eat the food before it disappears, 50 will be added to negative points
                     //draw new food after the previous one disappeared
                     if (Environment.TickCount - lastFoodTime >= foodDissapearTime)
                     {
                         negativePoints = negativePoints + 50;
                         Console.SetCursorPosition(food.col, food.row);
-                        Console.Write(" ");
+                        Console.Write("  ");
 
                         //Generate the new food and record the system tick count
-                        p.GenerateFood(ref food, snakeElements, obstacles);
+                        p.GenerateFood(ref food, snakeElements, obstacles,powerUp);
                         lastFoodTime = Environment.TickCount;
                     }
 

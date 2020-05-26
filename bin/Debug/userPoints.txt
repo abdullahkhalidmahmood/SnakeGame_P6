@@ -10,3 +10,6 @@
 1128, 1, Saitama
 1606, 3, AA
 633, 0, Saki
+0, 0, Noob
+154, 0, Noob2
+597, 0, Testing
