@@ -262,7 +262,7 @@ namespace Snake
         public int WinningCheck(int numberFoodEaten, int negativePoints, ref int userPoints, ref int finalScore, int life, string userName, int lifeBonusPoint)
         {
             // If the player eat 15 food then he/she will win the game
-            if (numberFoodEaten == 15)
+            if (numberFoodEaten == 10)
             {
                 WinSoundEffect(); //thissound effect plays when game won  
                 Console.SetCursorPosition(0, 0);
